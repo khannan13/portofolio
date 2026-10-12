@@ -384,16 +384,12 @@ if (profileImage) {
    CONSOLE MESSAGE
 ========================================================== */
 
-console.log(`
-
-%cKH. HANNAN
-
-%cPersonal Portfolio
-
-HTML • CSS • JavaScript
-
-`);
-
 console.log(
-    "Built by Khudzaifah Hannan Burhanuddin."
+    "%cKH. Hannan",
+    "font: 700 20px Georgia; color: #6e7654;"
 );
+
+console.log("Personal Portfolio · HTML, CSS, JavaScript");
+
+console.log("Built by Khudzaifah Hannan Burhanuddin.");
+ 
