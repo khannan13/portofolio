@@ -10,7 +10,8 @@
 
 window.addEventListener("load", () => {
 
-    const loader = document.getElementById("loader");
+    const loader =
+        document.getElementById("loader");
 
     setTimeout(() => {
 
@@ -21,12 +22,12 @@ window.addEventListener("load", () => {
 });
 
 
-
 /* ==========================================================
    NAVBAR SCROLL
 ========================================================== */
 
-const navbar = document.getElementById("navbar");
+const navbar =
+    document.getElementById("navbar");
 
 window.addEventListener("scroll", () => {
 
@@ -43,30 +44,35 @@ window.addEventListener("scroll", () => {
 });
 
 
-
 /* ==========================================================
    MOBILE MENU
 ========================================================== */
 
-const menuBtn = document.getElementById("menuBtn");
-const mobileNav = document.getElementById("mobileNav");
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const mobileNav =
+    document.getElementById("mobileNav");
 
 
 menuBtn.addEventListener("click", () => {
 
     mobileNav.classList.toggle("open");
 
-    const icon = menuBtn.querySelector("i");
+    const icon =
+        menuBtn.querySelector("i");
 
 
     if (mobileNav.classList.contains("open")) {
 
         icon.classList.remove("fa-bars");
+
         icon.classList.add("fa-xmark");
 
     } else {
 
         icon.classList.remove("fa-xmark");
+
         icon.classList.add("fa-bars");
 
     }
@@ -84,9 +90,11 @@ document
 
             mobileNav.classList.remove("open");
 
-            const icon = menuBtn.querySelector("i");
+            const icon =
+                menuBtn.querySelector("i");
 
             icon.classList.remove("fa-xmark");
+
             icon.classList.add("fa-bars");
 
         });
@@ -94,12 +102,12 @@ document
     });
 
 
-
 /* ==========================================================
    DARK MODE
 ========================================================== */
 
-const themeBtn = document.getElementById("themeBtn");
+const themeBtn =
+    document.getElementById("themeBtn");
 
 const savedTheme =
     localStorage.getItem("hannan-theme");
@@ -142,7 +150,6 @@ themeBtn.addEventListener("click", () => {
     }
 
 });
-
 
 
 /* ==========================================================
@@ -202,7 +209,6 @@ window.addEventListener(
 );
 
 
-
 /* ==========================================================
    BACK TO TOP
 ========================================================== */
@@ -237,7 +243,6 @@ backTop.addEventListener("click", () => {
     });
 
 });
-
 
 
 /* ==========================================================
@@ -283,7 +288,6 @@ document
         });
 
     });
-
 
 
 /* ==========================================================
@@ -347,9 +351,8 @@ document
     });
 
 
-
 /* ==========================================================
-   IMAGE FALLBACK
+   PROFILE IMAGE FALLBACK
 ========================================================== */
 
 const profileImage =
@@ -362,7 +365,8 @@ if (profileImage) {
         "error",
         () => {
 
-            profileImage.style.display = "none";
+            profileImage.style.display =
+                "none";
 
             const parent =
                 profileImage.parentElement;
@@ -379,17 +383,137 @@ if (profileImage) {
 }
 
 
+/* ==========================================================
+   CERTIFICATE MODAL
+========================================================== */
+
+const certificateImage =
+    document.querySelector(
+        ".certificate-image-wrapper img"
+    );
+
+const certificateModal =
+    document.getElementById(
+        "certificateModal"
+    );
+
+const certificateModalImage =
+    document.getElementById(
+        "certificateModalImage"
+    );
+
+const certificateModalClose =
+    document.getElementById(
+        "certificateModalClose"
+    );
+
+
+if (
+    certificateImage &&
+    certificateModal &&
+    certificateModalImage
+) {
+
+    certificateImage.addEventListener(
+        "click",
+        () => {
+
+            certificateModalImage.src =
+                certificateImage.src;
+
+            certificateModalImage.alt =
+                certificateImage.alt;
+
+            certificateModal.classList.add(
+                "show"
+            );
+
+            document.body.style.overflow =
+                "hidden";
+
+        }
+    );
+
+}
+
+
+function closeCertificateModal() {
+
+    if (!certificateModal) return;
+
+    certificateModal.classList.remove(
+        "show"
+    );
+
+    document.body.style.overflow = "";
+
+}
+
+
+if (certificateModalClose) {
+
+    certificateModalClose.addEventListener(
+        "click",
+        closeCertificateModal
+    );
+
+}
+
+
+if (certificateModal) {
+
+    certificateModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                certificateModal
+            ) {
+
+                closeCertificateModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ESC TO CLOSE CERTIFICATE */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            certificateModal &&
+            certificateModal.classList.contains("show")
+        ) {
+
+            closeCertificateModal();
+
+        }
+
+    }
+);
+
 
 /* ==========================================================
    CONSOLE MESSAGE
 ========================================================== */
 
 console.log(
-    "%cKH. Hannan",
-    "font: 700 20px Georgia; color: #6e7654;"
+    "%cKH. HANNAN",
+    "font:700 20px Georgia;color:#6e7654;"
 );
 
-console.log("Personal Portfolio · HTML, CSS, JavaScript");
+console.log(
+    "Personal Portfolio · HTML, CSS, JavaScript"
+);
 
-console.log("Built by Khudzaifah Hannan Burhanuddin.");
- 
+console.log(
+    "Built by Khudzaifah Hannan Burhanuddin."
+);
