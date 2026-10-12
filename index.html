@@ -10,11 +10,9 @@
     <meta name="description"
         content="Personal portfolio of Khudzaifah Hannan Burhanuddin, an Informatics student interested in web development, UI/UX, and technology.">
 
-    <!-- FAVICON -->
     <link rel="icon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236e7654'/%3E%3Ctext x='32' y='42' font-family='Georgia' font-size='28' text-anchor='middle' fill='%23f8f3e8'%3EKH%3C/text%3E%3C/svg%3E">
 
-    <!-- OPEN GRAPH (pratinjau saat link dibagikan) -->
     <meta property="og:title" content="Khudzaifah Hannan Burhanuddin — Portfolio">
     <meta property="og:description"
         content="Informatics student interested in web development, UI/UX, and technology. Creator of Snaphan, an online photobooth.">
@@ -39,9 +37,9 @@
 
 <body>
 
-    <!-- ==========================================
-         LOADING SCREEN
-    =========================================== -->
+    <!-- ==================================================
+         LOADER
+    =================================================== -->
 
     <div class="loader" id="loader">
 
@@ -60,9 +58,9 @@
     </div>
 
 
-    <!-- ==========================================
+    <!-- ==================================================
          NAVBAR
-    =========================================== -->
+    =================================================== -->
 
     <header class="navbar" id="navbar">
 
@@ -71,7 +69,6 @@
             <a href="#home" class="logo">
                 Hannan<span>.</span>
             </a>
-
 
             <nav class="desktop-nav">
 
@@ -91,25 +88,36 @@
                     Experience
                 </a>
 
+                <a href="#certificates" class="nav-link">
+                    Certificates
+                </a>
+
                 <a href="#contact" class="nav-link">
                     Contact
                 </a>
 
             </nav>
 
-
             <div class="nav-actions">
 
-                <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+                <button class="theme-btn"
+                    id="themeBtn"
+                    aria-label="Toggle theme">
+
                     <i class="fa-solid fa-moon"></i>
+
                 </button>
 
                 <a href="#contact" class="nav-talk">
                     Let's talk
                 </a>
 
-                <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+                <button class="menu-btn"
+                    id="menuBtn"
+                    aria-label="Open menu">
+
                     <i class="fa-solid fa-bars"></i>
+
                 </button>
 
             </div>
@@ -137,6 +145,10 @@
                 Experience
             </a>
 
+            <a href="#certificates">
+                Certificates
+            </a>
+
             <a href="#contact">
                 Contact
             </a>
@@ -146,19 +158,16 @@
     </header>
 
 
-
     <main>
 
-        <!-- ==========================================
+
+        <!-- ==================================================
              HERO
-        =========================================== -->
+        =================================================== -->
 
         <section class="hero" id="home">
 
             <div class="hero-container">
-
-
-                <!-- HERO TEXT -->
 
                 <div class="hero-text">
 
@@ -174,7 +183,6 @@
                     <h1>
 
                         Hi, I'm
-
                         <span>
                             Khudzaifah.
                         </span>
@@ -210,7 +218,9 @@
                         </a>
 
 
-                        <a href="cv_hannan.pdf" class="secondary-btn" download>
+                        <a href="cv_hannan.pdf"
+                            class="secondary-btn"
+                            download>
 
                             Download CV
 
@@ -230,7 +240,7 @@
                             </span>
 
                             <strong>
-                                S1 Informatika · Semester 5
+                                S1 Informatics · Semester 5
                             </strong>
 
                         </div>
@@ -253,10 +263,7 @@
                 </div>
 
 
-
-                <!-- ==================================
-                     PHOTO AREA
-                =================================== -->
+                <!-- PHOTO -->
 
                 <div class="hero-photo-area">
 
@@ -266,8 +273,11 @@
 
 
                     <div class="photo-side-text">
-                        SELECTED<br>
+
+                        SELECTED
+                        <br>
                         PORTRAIT
+
                     </div>
 
 
@@ -336,8 +346,6 @@
             </div>
 
 
-            <!-- HERO BOTTOM -->
-
             <div class="hero-bottom">
 
                 <span>
@@ -353,10 +361,9 @@
         </section>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              MARQUEE
-        =========================================== -->
+        =================================================== -->
 
         <div class="marquee">
 
@@ -388,10 +395,9 @@
         </div>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              WORK
-        =========================================== -->
+        =================================================== -->
 
         <section class="section work-section" id="work">
 
@@ -404,8 +410,10 @@
                     </p>
 
                     <h2>
+
                         Things I've
                         <em>built.</em>
+
                     </h2>
 
                 </div>
@@ -421,8 +429,7 @@
             </div>
 
 
-
-            <!-- PROJECT SNAPHAN -->
+            <!-- SNAPHAN -->
 
             <article class="project-card">
 
@@ -434,16 +441,15 @@
                             PROJECT 01
                         </span>
 
-
                         <div class="project-icon">
-                            <i class="fa-solid fa-camera-retro"></i>
-                        </div>
 
+                            <i class="fa-solid fa-camera-retro"></i>
+
+                        </div>
 
                         <strong>
                             SNAPHAN
                         </strong>
-
 
                         <small>
                             ONLINE PHOTOBOOTH
@@ -519,7 +525,6 @@
             </article>
 
 
-
             <div class="work-note">
 
                 <span>
@@ -538,15 +543,13 @@
         </section>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              ABOUT
-        =========================================== -->
+        =================================================== -->
 
         <section class="section about-section" id="about">
 
             <div class="about-grid">
-
 
                 <div class="about-title">
 
@@ -557,7 +560,6 @@
                     <h2>
 
                         A student,
-
                         <em>
                             always learning.
                         </em>
@@ -565,7 +567,6 @@
                     </h2>
 
                 </div>
-
 
 
                 <div class="about-content">
@@ -614,7 +615,6 @@
 
 
                     <div class="about-facts">
-
 
                         <div>
 
@@ -666,7 +666,6 @@
 
                         </div>
 
-
                     </div>
 
                 </div>
@@ -676,10 +675,9 @@
         </section>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              SKILLS
-        =========================================== -->
+        =================================================== -->
 
         <section class="section skills-section" id="skills">
 
@@ -705,12 +703,9 @@
 
             <div class="skills-list">
 
-
                 <div class="skill-row">
 
-                    <span>
-                        01
-                    </span>
+                    <span>01</span>
 
                     <h3>
                         Web Development
@@ -725,12 +720,9 @@
                 </div>
 
 
-
                 <div class="skill-row">
 
-                    <span>
-                        02
-                    </span>
+                    <span>02</span>
 
                     <h3>
                         UI / UX
@@ -745,12 +737,9 @@
                 </div>
 
 
-
                 <div class="skill-row">
 
-                    <span>
-                        03
-                    </span>
+                    <span>03</span>
 
                     <h3>
                         Database
@@ -765,12 +754,9 @@
                 </div>
 
 
-
                 <div class="skill-row">
 
-                    <span>
-                        04
-                    </span>
+                    <span>04</span>
 
                     <h3>
                         Programming
@@ -795,21 +781,10 @@
 
                 <div>
 
-                    <b>
-                        Adaptasi
-                    </b>
-
-                    <b>
-                        Disiplin
-                    </b>
-
-                    <b>
-                        Komunikasi
-                    </b>
-
-                    <b>
-                        Kerja Tim
-                    </b>
+                    <b>Adaptasi</b>
+                    <b>Disiplin</b>
+                    <b>Komunikasi</b>
+                    <b>Kerja Tim</b>
 
                 </div>
 
@@ -818,10 +793,9 @@
         </section>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              EXPERIENCE
-        =========================================== -->
+        =================================================== -->
 
         <section class="section experience-section" id="experience">
 
@@ -873,7 +847,6 @@
                 </div>
 
 
-
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -897,7 +870,6 @@
                     </div>
 
                 </div>
-
 
 
                 <div class="experience-item">
@@ -925,7 +897,6 @@
                 </div>
 
 
-
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -949,7 +920,6 @@
                     </div>
 
                 </div>
-
 
 
                 <div class="experience-item">
@@ -977,7 +947,6 @@
                 </div>
 
 
-
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -1001,7 +970,6 @@
                     </div>
 
                 </div>
-
 
 
                 <div class="experience-item">
@@ -1029,7 +997,6 @@
                 </div>
 
 
-
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -1055,7 +1022,6 @@
                 </div>
 
 
-
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -1079,7 +1045,6 @@
                     </div>
 
                 </div>
-
 
 
                 <div class="experience-item">
@@ -1111,15 +1076,13 @@
         </section>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              EDUCATION
-        =========================================== -->
+        =================================================== -->
 
         <section class="section education-section" id="education">
 
             <div class="education-grid">
-
 
                 <div>
 
@@ -1165,7 +1128,6 @@
                     </div>
 
 
-
                     <div class="education-item">
 
                         <span>
@@ -1185,7 +1147,6 @@
                         </div>
 
                     </div>
-
 
 
                     <div class="education-item">
@@ -1215,12 +1176,12 @@
         </section>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              CERTIFICATES
-        =========================================== -->
+        =================================================== -->
 
-        <section class="section certificate-section" id="certificates">
+        <section class="section certificate-section"
+            id="certificates">
 
             <div class="section-heading">
 
@@ -1233,7 +1194,6 @@
                     <h2>
 
                         Certificates &
-
                         <em>
                             activities.
                         </em>
@@ -1247,6 +1207,8 @@
 
             <div class="certificate-grid">
 
+
+                <!-- CERTIFICATE 1 -->
 
                 <div class="certificate-card">
 
@@ -1268,6 +1230,7 @@
                 </div>
 
 
+                <!-- CERTIFICATE 2 -->
 
                 <div class="certificate-card">
 
@@ -1289,6 +1252,7 @@
                 </div>
 
 
+                <!-- CERTIFICATE 3 -->
 
                 <div class="certificate-card">
 
@@ -1310,27 +1274,50 @@
                 </div>
 
 
+                <!-- CERTIFICATE 4 — SOEDIRMAN -->
 
-                <div class="certificate-card">
+                <div class="certificate-card certificate-image-card">
 
-                    <span>
-                        2025
-                    </span>
+                    <div class="certificate-image-wrapper">
 
-                    <i class="fa-regular fa-file-lines"></i>
+                        <img
+                            src="sertifikat_soedirman.jpeg"
+                            alt="Certificate of Soedirman Technophoria Web Development Competition">
 
-                    <h3>
-                        Soedirman Technophoria
-                        Web Development Competition
-                    </h3>
+                        <div class="certificate-image-overlay">
 
-                    <p>
-                        Participant
-                    </p>
+                            <i class="fa-solid fa-expand"></i>
+
+                            <span>
+                                View certificate
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="certificate-info">
+
+                        <span>
+                            2025
+                        </span>
+
+                        <h3>
+                            Soedirman Technophoria
+                            Web Development Competition
+                        </h3>
+
+                        <p>
+                            Participant
+                        </p>
+
+                    </div>
 
                 </div>
 
 
+                <!-- CERTIFICATE 5 -->
 
                 <div class="certificate-card">
 
@@ -1356,10 +1343,9 @@
         </section>
 
 
-
-        <!-- ==========================================
+        <!-- ==================================================
              CONTACT
-        =========================================== -->
+        =================================================== -->
 
         <section class="contact-section" id="contact">
 
@@ -1469,10 +1455,9 @@
     </main>
 
 
-
-    <!-- ==========================================
+    <!-- ==================================================
          FOOTER
-    =========================================== -->
+    =================================================== -->
 
     <footer>
 
@@ -1495,15 +1480,45 @@
     </footer>
 
 
+    <!-- ==================================================
+         CERTIFICATE MODAL
+    =================================================== -->
+
+    <div class="certificate-modal"
+        id="certificateModal">
+
+        <div class="certificate-modal-box">
+
+            <button
+                class="certificate-modal-close"
+                id="certificateModalClose"
+                aria-label="Close certificate">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+
+            <img
+                id="certificateModalImage"
+                src=""
+                alt="Certificate preview">
+
+        </div>
+
+    </div>
+
 
     <!-- BACK TO TOP -->
 
-    <button class="back-top" id="backTop" aria-label="Back to top">
+    <button
+        class="back-top"
+        id="backTop"
+        aria-label="Back to top">
 
         <i class="fa-solid fa-arrow-up"></i>
 
     </button>
-
 
 
     <!-- JAVASCRIPT -->
