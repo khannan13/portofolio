@@ -20,7 +20,7 @@
 
     --orange: #c65a3a;
 
-    --muted: #777063;
+    --muted: #5f594d;
 
     --line: #d5cbb9;
 
@@ -2777,5 +2777,18 @@ footer {
         transition-duration: .01ms !important;
 
     }
+
+}
+
+
+/* ==========================================================
+   KEYBOARD FOCUS
+========================================================== */
+
+:focus-visible {
+
+    outline: 3px solid var(--accent-dark);
+
+    outline-offset: 3px;
 
 }
