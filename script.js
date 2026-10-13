@@ -13,6 +13,8 @@ window.addEventListener("load", () => {
     const loader =
         document.getElementById("loader");
 
+    if (!loader) return;
+
     setTimeout(() => {
 
         loader.classList.add("hide");
@@ -30,6 +32,8 @@ const navbar =
     document.getElementById("navbar");
 
 window.addEventListener("scroll", () => {
+
+    if (!navbar) return;
 
     if (window.scrollY > 40) {
 
@@ -55,51 +59,60 @@ const mobileNav =
     document.getElementById("mobileNav");
 
 
-menuBtn.addEventListener("click", () => {
+if (menuBtn && mobileNav) {
 
-    mobileNav.classList.toggle("open");
+    menuBtn.addEventListener("click", () => {
 
-    const icon =
-        menuBtn.querySelector("i");
+        mobileNav.classList.toggle("open");
 
-
-    if (mobileNav.classList.contains("open")) {
-
-        icon.classList.remove("fa-bars");
-
-        icon.classList.add("fa-xmark");
-
-    } else {
-
-        icon.classList.remove("fa-xmark");
-
-        icon.classList.add("fa-bars");
-
-    }
-
-});
+        const icon =
+            menuBtn.querySelector("i");
 
 
-/* CLOSE MOBILE MENU */
+        if (!icon) return;
 
-document
-    .querySelectorAll(".mobile-nav a")
-    .forEach(link => {
 
-        link.addEventListener("click", () => {
+        if (mobileNav.classList.contains("open")) {
 
-            mobileNav.classList.remove("open");
+            icon.classList.remove("fa-bars");
 
-            const icon =
-                menuBtn.querySelector("i");
+            icon.classList.add("fa-xmark");
+
+        } else {
 
             icon.classList.remove("fa-xmark");
 
             icon.classList.add("fa-bars");
 
-        });
+        }
 
     });
+
+
+    /* CLOSE MOBILE MENU */
+
+    document
+        .querySelectorAll(".mobile-nav a")
+        .forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                mobileNav.classList.remove("open");
+
+                const icon =
+                    menuBtn.querySelector("i");
+
+                if (!icon) return;
+
+                icon.classList.remove("fa-xmark");
+
+                icon.classList.add("fa-bars");
+
+            });
+
+        });
+
+}
 
 
 /* ==========================================================
@@ -113,43 +126,47 @@ const savedTheme =
     localStorage.getItem("hannan-theme");
 
 
-if (savedTheme === "dark") {
+if (themeBtn) {
 
-    document.body.classList.add("dark");
+    if (savedTheme === "dark") {
 
-    themeBtn.innerHTML =
-        '<i class="fa-solid fa-sun"></i>';
-
-}
-
-
-themeBtn.addEventListener("click", () => {
-
-    document.body.classList.toggle("dark");
-
-    const darkMode =
-        document.body.classList.contains("dark");
-
-
-    localStorage.setItem(
-        "hannan-theme",
-        darkMode ? "dark" : "light"
-    );
-
-
-    if (darkMode) {
+        document.body.classList.add("dark");
 
         themeBtn.innerHTML =
             '<i class="fa-solid fa-sun"></i>';
 
-    } else {
-
-        themeBtn.innerHTML =
-            '<i class="fa-solid fa-moon"></i>';
-
     }
 
-});
+
+    themeBtn.addEventListener("click", () => {
+
+        document.body.classList.toggle("dark");
+
+        const darkMode =
+            document.body.classList.contains("dark");
+
+
+        localStorage.setItem(
+            "hannan-theme",
+            darkMode ? "dark" : "light"
+        );
+
+
+        if (darkMode) {
+
+            themeBtn.innerHTML =
+                '<i class="fa-solid fa-sun"></i>';
+
+        } else {
+
+            themeBtn.innerHTML =
+                '<i class="fa-solid fa-moon"></i>';
+
+        }
+
+    });
+
+}
 
 
 /* ==========================================================
@@ -219,6 +236,9 @@ const backTop =
 
 window.addEventListener("scroll", () => {
 
+    if (!backTop) return;
+
+
     if (window.scrollY > 600) {
 
         backTop.classList.add("show");
@@ -232,17 +252,21 @@ window.addEventListener("scroll", () => {
 });
 
 
-backTop.addEventListener("click", () => {
+if (backTop) {
 
-    window.scrollTo({
+    backTop.addEventListener("click", () => {
 
-        top: 0,
+        window.scrollTo({
 
-        behavior: "smooth"
+            top: 0,
+
+            behavior: "smooth"
+
+        });
 
     });
 
-});
+}
 
 
 /* ==========================================================
@@ -371,6 +395,10 @@ if (profileImage) {
             const parent =
                 profileImage.parentElement;
 
+
+            if (!parent) return;
+
+
             parent.style.background =
                 "linear-gradient(135deg, #d6cdbd, #bdb3a1)";
 
@@ -386,11 +414,6 @@ if (profileImage) {
 /* ==========================================================
    CERTIFICATE MODAL
 ========================================================== */
-
-const certificateImage =
-    document.querySelector(
-        ".certificate-image-wrapper img"
-    );
 
 const certificateModal =
     document.getElementById(
@@ -408,47 +431,112 @@ const certificateModalClose =
     );
 
 
-if (
-    certificateImage &&
-    certificateModal &&
-    certificateModalImage
-) {
+/*
+   Ambil SEMUA gambar sertifikat,
+   bukan hanya gambar pertama.
+*/
 
-    certificateImage.addEventListener(
-        "click",
-        () => {
-
-            certificateModalImage.src =
-                certificateImage.src;
-
-            certificateModalImage.alt =
-                certificateImage.alt;
-
-            certificateModal.classList.add(
-                "show"
-            );
-
-            document.body.style.overflow =
-                "hidden";
-
-        }
+const certificateImages =
+    document.querySelectorAll(
+        ".certificate-image-wrapper img"
     );
+
+
+/* ==========================================================
+   OPEN CERTIFICATE
+========================================================== */
+
+function openCertificate(image) {
+
+    if (
+        !certificateModal ||
+        !certificateModalImage ||
+        !image
+    ) {
+
+        return;
+
+    }
+
+
+    certificateModalImage.src =
+        image.currentSrc || image.src;
+
+    certificateModalImage.alt =
+        image.alt || "Certificate";
+
+
+    /*
+       CSS menggunakan class "open",
+       jadi JS juga harus menggunakan "open".
+    */
+
+    certificateModal.classList.add("open");
+
+    certificateModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
 
 }
 
+
+/* ==========================================================
+   CLOSE CERTIFICATE
+========================================================== */
 
 function closeCertificateModal() {
 
     if (!certificateModal) return;
 
-    certificateModal.classList.remove(
-        "show"
+
+    certificateModal.classList.remove("open");
+
+    certificateModal.setAttribute(
+        "aria-hidden",
+        "true"
     );
 
-    document.body.style.overflow = "";
+
+    document.body.style.overflow =
+        "";
+
+
+    if (certificateModalImage) {
+
+        certificateModalImage.src =
+            "";
+
+    }
 
 }
 
+
+/* ==========================================================
+   CERTIFICATE CLICK
+========================================================== */
+
+certificateImages.forEach(image => {
+
+    image.addEventListener(
+        "click",
+        () => {
+
+            openCertificate(image);
+
+        }
+    );
+
+});
+
+
+/* ==========================================================
+   CLOSE BUTTON
+========================================================== */
 
 if (certificateModalClose) {
 
@@ -459,6 +547,10 @@ if (certificateModalClose) {
 
 }
 
+
+/* ==========================================================
+   CLICK OUTSIDE MODAL
+========================================================== */
 
 if (certificateModal) {
 
@@ -481,7 +573,9 @@ if (certificateModal) {
 }
 
 
-/* ESC TO CLOSE CERTIFICATE */
+/* ==========================================================
+   ESC TO CLOSE CERTIFICATE
+========================================================== */
 
 document.addEventListener(
     "keydown",
@@ -490,7 +584,7 @@ document.addEventListener(
         if (
             event.key === "Escape" &&
             certificateModal &&
-            certificateModal.classList.contains("show")
+            certificateModal.classList.contains("open")
         ) {
 
             closeCertificateModal();
