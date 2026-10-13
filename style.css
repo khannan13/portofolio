@@ -1042,11 +1042,15 @@ section {
 @keyframes marquee {
 
     from {
+
         transform: translateX(0);
+
     }
 
     to {
+
         transform: translateX(-50%);
+
     }
 
 }
@@ -1267,11 +1271,49 @@ section {
 }
 
 
+/* ==========================================================
+   PROJECT SCREENSHOT
+========================================================== */
+
+.project-preview {
+
+    padding: 0;
+
+    overflow: hidden;
+
+}
+
+
+.project-preview img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    background: var(--paper);
+
+    transition: transform .4s ease;
+
+}
+
+
+.project-card:hover .project-preview img {
+
+    transform: scale(1.03);
+
+}
+
+
 .project-index {
 
     position: absolute;
 
     top: 24px;
+
     left: 25px;
 
     font-family: var(--serif);
