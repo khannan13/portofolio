@@ -5,8 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
+    <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
     <title>
@@ -15,59 +14,53 @@
 
     <meta
         name="description"
-        content="Personal portfolio of Khudzaifah Hannan Burhanuddin, an Informatics student interested in web development, UI/UX, and technology.">
-
-    <!-- FAVICON -->
-    <link
-        rel="icon"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236e7654'/%3E%3Ctext x='32' y='42' font-family='Georgia' font-size='28' text-anchor='middle' fill='%23f8f3e8'%3EKH%3C/text%3E%3C/svg%3E">
-
-    <!-- OPEN GRAPH -->
-    <meta
-        property="og:title"
-        content="Khudzaifah Hannan Burhanuddin — Portfolio">
-
-    <meta
-        property="og:description"
-        content="Informatics student interested in web development, UI/UX, and technology. Creator of Snaphan, an online photobooth.">
-
-    <meta
-        property="og:type"
-        content="website">
+        content="Personal portfolio of Khudzaifah Hannan Burhanuddin, an Informatics student interested in web development, UI/UX, and technology."
+    >
 
     <meta
         name="theme-color"
-        content="#eee6d7">
+        content="#eee6d7"
+    >
 
-
-    <!-- GOOGLE FONTS -->
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
 
     <link
         rel="preconnect"
-        href="https://fonts.googleapis.com">
+        href="https://fonts.googleapis.com"
+    >
 
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
-        crossorigin>
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"
+    >
 
 
-    <!-- FONT AWESOME -->
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
 
-    <!-- CSS -->
+    <!-- =====================================================
+         CSS
+    ====================================================== -->
 
     <link
         rel="stylesheet"
-        href="style.css">
+        href="style.css"
+    >
 
 </head>
 
@@ -75,22 +68,23 @@
 <body>
 
 
-    <!-- ==========================================
-         LOADING SCREEN
-    =========================================== -->
+    <!-- =====================================================
+         LOADER
+    ====================================================== -->
 
     <div
         class="loader"
-        id="loader">
+        id="loader"
+    >
 
         <div class="loader-content">
 
             <div class="loader-logo">
-                KH
+                WELCOME
             </div>
 
             <span>
-                KHUDZAIFAH HANNAN Burhanuddin
+                PORTOFOLIO
             </span>
 
         </div>
@@ -99,101 +93,118 @@
 
 
 
-    <!-- ==========================================
+    <!-- =====================================================
          NAVBAR
-    =========================================== -->
+    ====================================================== -->
 
     <header
         class="navbar"
-        id="navbar">
+        id="navbar"
+    >
 
         <div class="nav-container">
 
 
+            <!-- LOGO -->
+
             <a
                 href="#home"
-                class="logo">
+                class="logo"
+            >
 
                 Hannan<span>.</span>
 
             </a>
 
 
+
+            <!-- DESKTOP NAVIGATION -->
+
             <nav class="desktop-nav">
 
                 <a
                     href="#home"
-                    class="nav-link active">
-
+                    class="nav-link active"
+                >
                     Home
-
                 </a>
-
 
                 <a
                     href="#work"
-                    class="nav-link">
-
+                    class="nav-link"
+                >
                     Work
-
                 </a>
-
 
                 <a
                     href="#about"
-                    class="nav-link">
-
+                    class="nav-link"
+                >
                     About
-
                 </a>
-
 
                 <a
                     href="#experience"
-                    class="nav-link">
-
+                    class="nav-link"
+                >
                     Experience
-
                 </a>
 
+                <a
+                    href="#certificates"
+                    class="nav-link"
+                >
+                    Certificates
+                </a>
 
                 <a
                     href="#contact"
-                    class="nav-link">
-
+                    class="nav-link"
+                >
                     Contact
-
                 </a>
 
             </nav>
 
 
+
+            <!-- NAV ACTIONS -->
+
             <div class="nav-actions">
 
+
+                <!-- THEME BUTTON -->
 
                 <button
                     class="theme-btn"
                     id="themeBtn"
-                    aria-label="Toggle theme">
+                    aria-label="Toggle theme"
+                >
 
                     <i class="fa-solid fa-moon"></i>
 
                 </button>
 
 
+
+                <!-- LET'S TALK -->
+
                 <a
                     href="#contact"
-                    class="nav-talk">
-
+                    class="nav-talk"
+                >
                     Let's talk
-
                 </a>
 
+
+
+                <!-- MOBILE MENU -->
 
                 <button
                     class="menu-btn"
                     id="menuBtn"
-                    aria-label="Open menu">
+                    aria-label="Open menu"
+                >
 
                     <i class="fa-solid fa-bars"></i>
 
@@ -206,37 +217,36 @@
 
 
 
-        <!-- MOBILE NAV -->
+        <!-- MOBILE NAVIGATION -->
 
         <div
             class="mobile-nav"
-            id="mobileNav">
-
+            id="mobileNav"
+        >
 
             <a href="#home">
                 Home
             </a>
 
-
             <a href="#work">
                 Work
             </a>
-
 
             <a href="#about">
                 About
             </a>
 
-
             <a href="#experience">
                 Experience
             </a>
 
+            <a href="#certificates">
+                Certificates
+            </a>
 
             <a href="#contact">
                 Contact
             </a>
-
 
         </div>
 
@@ -244,17 +254,22 @@
 
 
 
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
     <main>
 
 
-        <!-- ==========================================
+
+        <!-- =================================================
              HERO
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="hero"
-            id="home">
-
+            id="home"
+        >
 
             <div class="hero-container">
 
@@ -271,6 +286,7 @@
                         INFORMATICS STUDENT · WEB · TECHNOLOGY
 
                     </div>
+
 
 
                     <h1>
@@ -292,6 +308,7 @@
                     </h1>
 
 
+
                     <p class="hero-description">
 
                         An Informatics student who enjoys turning ideas
@@ -302,12 +319,14 @@
                     </p>
 
 
+
                     <div class="hero-buttons">
 
 
                         <a
                             href="#work"
-                            class="primary-btn">
+                            class="primary-btn"
+                        >
 
                             Explore my work
 
@@ -316,10 +335,12 @@
                         </a>
 
 
+
                         <a
                             href="cv_hannan.pdf"
                             class="secondary-btn"
-                            download>
+                            download
+                        >
 
                             Download CV
 
@@ -329,6 +350,7 @@
 
 
                     </div>
+
 
 
                     <div class="hero-mini-info">
@@ -345,6 +367,7 @@
                             </strong>
 
                         </div>
+
 
 
                         <div>
@@ -367,7 +390,7 @@
 
 
 
-                <!-- PHOTO AREA -->
+                <!-- HERO PHOTO -->
 
                 <div class="hero-photo-area">
 
@@ -375,6 +398,7 @@
                     <div class="photo-number">
                         01
                     </div>
+
 
 
                     <div class="photo-side-text">
@@ -385,25 +409,29 @@
                     </div>
 
 
+
                     <div class="photo-frame">
 
 
                         <div class="frame-border"></div>
 
 
+
                         <div class="photo-image">
 
                             <img
                                 src="profil.jpeg"
-                                alt="Khudzaifah Hannan Burhanuddin">
+                                alt="Khudzaifah Hannan Burhanuddin"
+                            >
 
                         </div>
+
 
 
                         <div class="photo-label-top">
 
                             <span>
-                                KHUDZAIFAH HANNAN B.
+                                KHUDZAIFAH HANNAN BURHANUDDIN
                             </span>
 
                             <span>
@@ -413,10 +441,11 @@
                         </div>
 
 
+
                         <div class="photo-label-bottom">
 
                             <span>
-                                 HANNAN
+                                HANNAN
                             </span>
 
                             <span>
@@ -424,6 +453,7 @@
                             </span>
 
                         </div>
+
 
 
                         <span class="corner corner-tl"></span>
@@ -435,8 +465,8 @@
                     </div>
 
 
-                    <div class="photo-badge">
 
+                    <div class="photo-badge">
 
                         <div class="badge-icon">
 
@@ -444,11 +474,9 @@
 
                         </div>
 
-
                         <span>
                             SCROLL
                         </span>
-
 
                     </div>
 
@@ -479,33 +507,60 @@
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              MARQUEE
-        =========================================== -->
+        ================================================== -->
 
         <div class="marquee">
 
             <div class="marquee-track">
 
-                <span>INFORMATICS</span>
+                <span>
+                    INFORMATICS
+                </span>
+
                 <b>✦</b>
 
-                <span>WEB DEVELOPMENT</span>
+                <span>
+                    WEB DEVELOPMENT
+                </span>
+
                 <b>✦</b>
 
-                <span>UI / UX</span>
+                <span>
+                    UI / UX
+                </span>
+
                 <b>✦</b>
 
-                <span>TECHNOLOGY</span>
+                <span>
+                    TECHNOLOGY
+                </span>
+
                 <b>✦</b>
 
-                <span>PROBLEM SOLVING</span>
+                <span>
+                    PROBLEM SOLVING
+                </span>
+
                 <b>✦</b>
 
-                <span>INFORMATICS</span>
+                <span>
+                    INFORMATICS
+                </span>
+
                 <b>✦</b>
 
-                <span>WEB DEVELOPMENT</span>
+                <span>
+                    WEB DEVELOPMENT
+                </span>
+
+                <b>✦</b>
+
+                <span>
+                    UI / UX
+                </span>
+
                 <b>✦</b>
 
             </div>
@@ -514,13 +569,14 @@
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              WORK
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="section work-section"
-            id="work">
+            id="work"
+        >
 
 
             <div class="section-heading">
@@ -535,11 +591,15 @@
                     <h2>
 
                         Things I've
-                        <em>built.</em>
+
+                        <em>
+                            built.
+                        </em>
 
                     </h2>
 
                 </div>
+
 
 
                 <p class="section-description">
@@ -554,7 +614,7 @@
 
 
 
-            <!-- PROJECT SNAPHAN -->
+            <!-- SNAPHAN PROJECT -->
 
             <article class="project-card">
 
@@ -562,32 +622,17 @@
                 <div class="project-image">
 
 
-                    <div class="project-placeholder">
+                    <div class="project-placeholder project-preview">
 
+                        <!-- FILE ASLI: ss_snaphan.png -->
 
-                        <span>
-                            PROJECT 01
-                        </span>
-
-
-                        <div class="project-icon">
-
-                            <i class="fa-solid fa-camera-retro"></i>
-
-                        </div>
-
-
-                        <strong>
-                            SNAPHAN
-                        </strong>
-
-
-                        <small>
-                            ONLINE PHOTOBOOTH
-                        </small>
-
+                        <img
+                            src="ss_snaphan.png"
+                            alt="Screenshot website Snaphan Online Photobooth"
+                        >
 
                     </div>
+
 
 
                     <div class="project-index">
@@ -607,9 +652,11 @@
                     </p>
 
 
+
                     <h3>
                         Snaphan
                     </h3>
+
 
 
                     <p class="project-text">
@@ -623,19 +670,34 @@
                     </p>
 
 
+
                     <div class="tags">
 
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
-                        <span>PeerJS</span>
-                        <span>Web API</span>
+                        <span>
+                            HTML
+                        </span>
+
+                        <span>
+                            CSS
+                        </span>
+
+                        <span>
+                            JavaScript
+                        </span>
+
+                        <span>
+                            PeerJS
+                        </span>
+
+                        <span>
+                            Web API
+                        </span>
 
                     </div>
 
 
-                    <div class="project-bottom">
 
+                    <div class="project-bottom">
 
                         <span>
                             Web Project
@@ -646,14 +708,14 @@
                             href="https://snaphans.vercel.app/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="project-link">
+                            class="project-link"
+                        >
 
                             View project
 
                             <i class="fa-solid fa-arrow-right"></i>
 
                         </a>
-
 
                     </div>
 
@@ -685,13 +747,14 @@
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              ABOUT
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="section about-section"
-            id="about">
+            id="about"
+        >
 
 
             <div class="about-grid">
@@ -702,7 +765,6 @@
                     <p class="section-label">
                         02 — ABOUT ME
                     </p>
-
 
                     <h2>
 
@@ -723,13 +785,15 @@
 
                     <p
                         class="about-lead"
-                        lang="id">
+                        lang="id"
+                    >
 
                         Saya adalah mahasiswa aktif semester 5
                         Program Studi S1 Informatika PSDKU
                         Universitas Sebelas Maret.
 
                     </p>
+
 
 
                     <p lang="id">
@@ -743,6 +807,7 @@
                     </p>
 
 
+
                     <p lang="id">
 
                         Saya senang bekerja dalam tim, mencoba hal-hal baru,
@@ -750,6 +815,7 @@
                         project selama perkuliahan.
 
                     </p>
+
 
 
                     <div class="quote">
@@ -766,6 +832,7 @@
                         </p>
 
                     </div>
+
 
 
                     <div class="about-facts">
@@ -788,6 +855,7 @@
                         </div>
 
 
+
                         <div>
 
                             <span>
@@ -803,6 +871,7 @@
                             </small>
 
                         </div>
+
 
 
                         <div>
@@ -835,13 +904,14 @@
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              SKILLS
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="section skills-section"
-            id="skills">
+            id="skills"
+        >
 
 
             <div class="section-heading">
@@ -856,7 +926,10 @@
                     <h2>
 
                         What I
-                        <em>bring.</em>
+
+                        <em>
+                            bring.
+                        </em>
 
                     </h2>
 
@@ -889,6 +962,7 @@
                 </div>
 
 
+
                 <div class="skill-row">
 
                     <span>
@@ -908,6 +982,7 @@
                 </div>
 
 
+
                 <div class="skill-row">
 
                     <span>
@@ -925,6 +1000,7 @@
                     <i class="fa-solid fa-database"></i>
 
                 </div>
+
 
 
                 <div class="skill-row">
@@ -958,6 +1034,7 @@
                 </span>
 
 
+
                 <div>
 
                     <b>
@@ -986,13 +1063,14 @@
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              EXPERIENCE
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="section experience-section"
-            id="experience">
+            id="experience"
+        >
 
 
             <div class="section-heading">
@@ -1007,7 +1085,10 @@
                     <h2>
 
                         My
-                        <em>journey.</em>
+
+                        <em>
+                            journey.
+                        </em>
 
                     </h2>
 
@@ -1034,7 +1115,7 @@
                         </p>
 
                         <h3>
-                            Divisi MIKAT
+                           Sekbid Divisi MIKAT
                         </h3>
 
                         <span>
@@ -1044,6 +1125,7 @@
                     </div>
 
                 </div>
+
 
 
                 <div class="experience-item">
@@ -1071,6 +1153,7 @@
                 </div>
 
 
+
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -1094,6 +1177,7 @@
                     </div>
 
                 </div>
+
 
 
                 <div class="experience-item">
@@ -1121,6 +1205,7 @@
                 </div>
 
 
+
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -1144,6 +1229,7 @@
                     </div>
 
                 </div>
+
 
 
                 <div class="experience-item">
@@ -1171,6 +1257,33 @@
                 </div>
 
 
+
+                <div class="experience-item">
+
+                    <div class="experience-year">
+                        2024–Sekarang
+                    </div>
+
+                    <div>
+
+                        <p>
+                            UKM P2M
+                        </p>
+
+                        <h3>
+                            Anggota
+                        </h3>
+
+                        <span>
+                            Organization
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -1196,6 +1309,7 @@
                 </div>
 
 
+
                 <div class="experience-item">
 
                     <div class="experience-year">
@@ -1219,6 +1333,7 @@
                     </div>
 
                 </div>
+
 
 
                 <div class="experience-item">
@@ -1253,16 +1368,17 @@
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              EDUCATION
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="section education-section"
-            id="education">
+            id="education"
+        >
 
 
-            <div class="section-heading">
+            <div class="education-grid">
 
 
                 <div>
@@ -1273,100 +1389,86 @@
 
                     <h2>
 
-                        Where I've
-                        <em>learned.</em>
+                        Where I
+
+                        <em>
+                            learned.
+                        </em>
 
                     </h2>
 
                 </div>
 
 
-            </div>
+
+                <div class="education-list">
 
 
-
-            <div class="education-list">
-
-
-                <div class="education-item">
-
-
-                    <div class="education-year">
-                        2024 — Sekarang
-                    </div>
-
-
-                    <div class="education-content">
-
-                        <p>
-                            UNIVERSITAS SEBELAS MARET
-                        </p>
-
-                        <h3>
-                            S1 Informatika PSDKU
-                        </h3>
+                    <div class="education-item">
 
                         <span>
-                            Kebumen · Informatics
+                            2024 — PRESENT
                         </span>
 
+                        <div>
+
+                            <h3>
+                                S1 Informatika PSDKU
+                            </h3>
+
+                            <p>
+                                Universitas Sebelas Maret
+                            </p>
+
+                            <small>
+                                Kebumen
+                            </small>
+
+                        </div>
+
                     </div>
 
 
-                </div>
 
-
-
-                <div class="education-item">
-
-
-                    <div class="education-year">
-                        2021 — 2024
-                    </div>
-
-
-                    <div class="education-content">
-
-                        <p>
-                            MA NUURUL WAAHID
-                        </p>
-
-                        <h3>
-                            Madrasah Aliyah
-                        </h3>
+                    <div class="education-item">
 
                         <span>
-                            Purworejo
+                            2021 — 2024
                         </span>
 
+                        <div>
+
+                            <h3>
+                                MA Nuurul Waahid
+                            </h3>
+
+                            <p>
+                                Purworejo
+                            </p>
+
+                        </div>
+
                     </div>
 
 
-                </div>
 
-
-
-                <div class="education-item">
-
-
-                    <div class="education-year">
-                        2018 — 2021
-                    </div>
-
-
-                    <div class="education-content">
-
-                        <p>
-                            SMPIT AR-RISALAH
-                        </p>
-
-                        <h3>
-                            Sekolah Menengah Pertama
-                        </h3>
+                    <div class="education-item">
 
                         <span>
-                            Kebumen
+                            2018 — 2021
                         </span>
+
+                        <div>
+
+                            <h3>
+                                SMPIT Ar-Risalah
+                            </h3>
+
+                            <p>
+                                Kebumen
+                            </p>
+
+                        </div>
 
                     </div>
 
@@ -1381,13 +1483,14 @@
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              CERTIFICATES
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="section certificate-section"
-            id="certificates">
+            id="certificates"
+        >
 
 
             <div class="section-heading">
@@ -1402,19 +1505,14 @@
                     <h2>
 
                         Certificates &
-                        <em>activities.</em>
+
+                        <em>
+                            activities.
+                        </em>
 
                     </h2>
 
                 </div>
-
-
-                <p class="section-description">
-
-                    A collection of certificates and participation records
-                    from academic, organizational, and competition activities.
-
-                </p>
 
 
             </div>
@@ -1424,20 +1522,24 @@
             <div class="certificate-grid">
 
 
-                <!-- CERTIFICATE 01 -->
+
+                <!-- =========================================
+                     CERTIFICATE 01
+                     FILE: sertifikat_imakes.jpeg
+                ========================================== -->
 
                 <article
-                    class="certificate-card certificate-image-card">
+                    class="certificate-card certificate-image-card"
+                >
 
-
-                    <div class="certificate-image-wrapper">
-
+                    <div
+                        class="certificate-image-wrapper"
+                    >
 
                         <img
                             src="sertifikat_imakes.jpeg"
-                            alt="Sertifikat Penghargaan IMAKES Day 2026"
-                            loading="lazy">
-
+                            alt="IMAKES Day 2026 certificate"
+                        >
 
                         <div class="certificate-overlay">
 
@@ -1450,7 +1552,6 @@
                             </span>
 
                         </div>
-
 
                     </div>
 
@@ -1471,25 +1572,27 @@
 
                     </div>
 
-
                 </article>
 
 
 
-                <!-- CERTIFICATE 02 -->
+                <!-- =========================================
+                     CERTIFICATE 02
+                     FILE: sertifikat_leadership.jpeg
+                ========================================== -->
 
                 <article
-                    class="certificate-card certificate-image-card">
+                    class="certificate-card certificate-image-card"
+                >
 
-
-                    <div class="certificate-image-wrapper">
-
+                    <div
+                        class="certificate-image-wrapper"
+                    >
 
                         <img
                             src="sertifikat_leadership.jpeg"
-                            alt="Sertifikat Level Up Your Leadership"
-                            loading="lazy">
-
+                            alt="Level Up Your Leadership certificate"
+                        >
 
                         <div class="certificate-overlay">
 
@@ -1502,7 +1605,6 @@
                             </span>
 
                         </div>
-
 
                     </div>
 
@@ -1523,25 +1625,27 @@
 
                     </div>
 
-
                 </article>
 
 
 
-                <!-- CERTIFICATE 03 -->
+                <!-- =========================================
+                     CERTIFICATE 03
+                     FILE: sertifikast_progamming.jpeg
+                ========================================== -->
 
                 <article
-                    class="certificate-card certificate-image-card">
+                    class="certificate-card certificate-image-card"
+                >
 
-
-                    <div class="certificate-image-wrapper">
-
+                    <div
+                        class="certificate-image-wrapper"
+                    >
 
                         <img
                             src="sertifikast_progamming.jpeg"
-                            alt="Sertifikat IT Competitive Programming Competition"
-                            loading="lazy">
-
+                            alt="IT Competitive Programming Competition certificate"
+                        >
 
                         <div class="certificate-overlay">
 
@@ -1554,7 +1658,6 @@
                             </span>
 
                         </div>
-
 
                     </div>
 
@@ -1575,25 +1678,27 @@
 
                     </div>
 
-
                 </article>
 
 
 
-                <!-- CERTIFICATE 04 -->
+                <!-- =========================================
+                     CERTIFICATE 04
+                     FILE: sertifikat_soedirman.jpeg
+                ========================================== -->
 
                 <article
-                    class="certificate-card certificate-image-card">
+                    class="certificate-card certificate-image-card"
+                >
 
-
-                    <div class="certificate-image-wrapper">
-
+                    <div
+                        class="certificate-image-wrapper"
+                    >
 
                         <img
                             src="sertifikat_soedirman.jpeg"
-                            alt="Sertifikat Soedirman Technophoria Web Development Competition"
-                            loading="lazy">
-
+                            alt="Soedirman Technophoria Web Development Competition certificate"
+                        >
 
                         <div class="certificate-overlay">
 
@@ -1606,7 +1711,6 @@
                             </span>
 
                         </div>
-
 
                     </div>
 
@@ -1618,8 +1722,7 @@
                         </span>
 
                         <h3>
-                            Soedirman Technophoria
-                            Web Development Competition
+                            Soedirman Technophoria Web Development Competition
                         </h3>
 
                         <p>
@@ -1628,25 +1731,27 @@
 
                     </div>
 
-
                 </article>
 
 
 
-                <!-- CERTIFICATE 05 -->
+                <!-- =========================================
+                     CERTIFICATE 05
+                     FILE: sertifikat_igneteera.jpeg
+                ========================================== -->
 
                 <article
-                    class="certificate-card certificate-image-card">
+                    class="certificate-card certificate-image-card"
+                >
 
-
-                    <div class="certificate-image-wrapper">
-
+                    <div
+                        class="certificate-image-wrapper"
+                    >
 
                         <img
                             src="sertifikat_igneteera.jpeg"
-                            alt="Sertifikat Ignitera Business Plan Competition"
-                            loading="lazy">
-
+                            alt="Ignitera Business Plan Competition certificate"
+                        >
 
                         <div class="certificate-overlay">
 
@@ -1659,7 +1764,6 @@
                             </span>
 
                         </div>
-
 
                     </div>
 
@@ -1680,8 +1784,8 @@
 
                     </div>
 
-
                 </article>
+
 
 
             </div>
@@ -1691,15 +1795,15 @@
 
 
 
-        <!-- ==========================================
-             CERTIFICATE IMAGE MODAL
-        =========================================== -->
+        <!-- =================================================
+             CERTIFICATE MODAL
+        ================================================== -->
 
         <div
             class="certificate-modal"
             id="certificateModal"
-            aria-hidden="true">
-
+            aria-hidden="true"
+        >
 
             <div class="certificate-modal-box">
 
@@ -1707,33 +1811,36 @@
                 <button
                     class="certificate-modal-close"
                     id="certificateModalClose"
-                    aria-label="Close certificate preview">
+                    aria-label="Close certificate"
+                >
 
                     <i class="fa-solid fa-xmark"></i>
 
                 </button>
 
 
+
                 <img
                     id="certificateModalImage"
                     src=""
-                    alt="Certificate preview">
+                    alt="Certificate preview"
+                >
 
 
             </div>
-
 
         </div>
 
 
 
-        <!-- ==========================================
+        <!-- =================================================
              CONTACT
-        =========================================== -->
+        ================================================== -->
 
         <section
             class="contact-section"
-            id="contact">
+            id="contact"
+        >
 
 
             <div class="contact-inner">
@@ -1742,6 +1849,7 @@
                 <p class="section-label">
                     07 — CONTACT
                 </p>
+
 
 
                 <h2>
@@ -1757,6 +1865,7 @@
                 </h2>
 
 
+
                 <p class="contact-description">
 
                     I'm always open to learning, collaborating,
@@ -1765,9 +1874,11 @@
                 </p>
 
 
+
                 <a
                     href="mailto:khudzaifahhannan33@gmail.com"
-                    class="contact-email">
+                    class="contact-email"
+                >
 
                     khudzaifahhannan33@gmail.com
 
@@ -1776,40 +1887,18 @@
                 </a>
 
 
-                <div class="instagram-contact">
-
-
-                    <span>
-                        CV
-                    </span>
-
-
-                    <a
-                        href="cv_hannan.pdf"
-                        download>
-
-                        Download CV (PDF)
-
-                        <i class="fa-solid fa-download"></i>
-
-                    </a>
-
-
-                </div>
-
 
                 <div class="instagram-contact">
-
 
                     <span>
                         INSTAGRAM
                     </span>
 
-
                     <a
                         href="https://www.instagram.com/dzainan/"
                         target="_blank"
-                        rel="noopener noreferrer">
+                        rel="noopener noreferrer"
+                    >
 
                         @dzainan
 
@@ -1817,12 +1906,32 @@
 
                     </a>
 
+                </div>
+
+
+
+                <div class="instagram-contact">
+
+                    <span>
+                        CV
+                    </span>
+
+                    <a
+                        href="cv_hannan.pdf"
+                        download
+                    >
+
+                        Download CV (PDF)
+
+                        <i class="fa-solid fa-download"></i>
+
+                    </a>
 
                 </div>
 
 
-                <div class="contact-meta">
 
+                <div class="contact-meta">
 
                     <span>
                         Kebumen, Indonesia
@@ -1835,14 +1944,14 @@
                             href="https://www.instagram.com/dzainan/"
                             target="_blank"
                             rel="noopener noreferrer"
-                            title="Instagram">
+                            title="Instagram"
+                        >
 
                             <i class="fa-brands fa-instagram"></i>
 
                         </a>
 
                     </div>
-
 
                 </div>
 
@@ -1857,49 +1966,45 @@
 
 
 
-    <!-- ==========================================
+    <!-- =====================================================
          FOOTER
-    =========================================== -->
+    ====================================================== -->
 
     <footer>
-
 
         <div class="footer-container">
 
 
-            <div>
+            <span>
+                © 2026 Khudzaifah Hannan Burhanuddin
+            </span>
 
-                <strong>
-                    KHUDZAIFAH HANNAN B.
-                </strong>
 
-                <span>
-                    © 2026
-                </span>
-
-            </div>
-
+            <span>
+                Designed & built with intention.
+            </span>
 
 
             <a href="#home">
-                Back to top
-                <i class="fa-solid fa-arrow-up"></i>
+                Back to top ↑
             </a>
 
 
         </div>
 
-
     </footer>
 
 
 
-    <!-- BACK TO TOP -->
+    <!-- =====================================================
+         BACK TO TOP
+    ====================================================== -->
 
     <button
         class="back-top"
         id="backTop"
-        aria-label="Back to top">
+        aria-label="Back to top"
+    >
 
         <i class="fa-solid fa-arrow-up"></i>
 
@@ -1907,9 +2012,12 @@
 
 
 
-    <!-- JAVASCRIPT -->
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
     <script src="script.js"></script>
+
 
 </body>
 
