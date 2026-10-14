@@ -3083,3 +3083,345 @@ footer {
     outline-offset: 3px;
 
 }
+
+
+/* ==========================================================
+   HERO: LANYARD ID CARD (3D)
+   Tanpa kotak latar. Kartu berlapis: pelat, jendela, foto yang
+   "nongol" keluar jendela, dan bar nama. Lapisan berada pada
+   kedalaman (translateZ) berbeda sehingga terlihat bergeser
+   saat kartu miring.
+========================================================== */
+
+.hero-photo-area.lanyard-area {
+    position: relative;
+    align-self: stretch;
+    display: block;
+    min-height: 540px;
+}
+
+.stage {
+    --card-w: clamp(196px, 16vw, 224px);
+    position: absolute;
+    top: 0;          /* di layar lebar, tali ditarik sampai tepi atas halaman oleh JS */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    touch-action: pan-y;
+}
+
+.stage canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.id-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--card-w);
+    aspect-ratio: 1 / 1.66;
+    perspective: 1000px;
+    transform-origin: 50% 0;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    will-change: transform;
+    z-index: 3;
+}
+
+.id-card.dragging { cursor: grabbing; }
+
+/* Jepitan logam */
+
+.id-clip {
+    position: absolute;
+    left: 50%;
+    top: -30px;
+    width: 26px;
+    height: 52px;
+    transform: translateX(-50%);
+    z-index: 5;
+    border-radius: 8px 8px 11px 11px;
+    background: linear-gradient(90deg, #a9a393 0%, #f6f1e5 38%, #99937f 100%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .3);
+    pointer-events: none;
+}
+
+.id-clip::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    width: 11px;
+    height: 11px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #191713;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .6);
+}
+
+.id-tilt,
+.id-inner {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+}
+
+.id-tilt { will-change: transform; }
+
+.id-inner { transition: transform .75s cubic-bezier(.3, 1.25, .5, 1); }
+
+.id-card.flipped .id-inner { transform: rotateY(180deg); }
+
+.id-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* ---------- DEPAN ---------- */
+
+.id-front { transform-style: preserve-3d; }
+
+.id-front > * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.id-plate {
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    border: 2px solid #191713;
+    background: linear-gradient(165deg, #dc6a43 0%, #b84a2a 100%);
+    box-shadow: 0 28px 44px rgba(10, 10, 6, .38);
+    overflow: hidden;
+}
+
+.id-slot {
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    width: 40px;
+    height: 7px;
+    transform: translateX(-50%);
+    border-radius: 99px;
+    background: rgba(25, 23, 19, .55);
+}
+
+/* jendela berbentuk lengkung */
+.id-arch {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 20%;
+    height: 54%;
+    border-radius: 999px 999px 14px 14px;
+    background: linear-gradient(180deg, #f6eedb 0%, #e7dcc2 100%);
+    box-shadow: inset 0 4px 10px rgba(25, 23, 19, .2);
+    transform: translateZ(10px);
+}
+
+.id-brand {
+    position: absolute;
+    left: 14px;
+    top: 30px;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #f8f3e8;
+    color: #c65a3a;
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1;
+    transform: translateZ(18px);
+}
+
+.id-year {
+    position: absolute;
+    right: 14px;
+    top: 36px;
+    color: #f8f3e8;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    transform: translateZ(18px);
+}
+
+/* foto yang "nongol" keluar dari jendela */
+.id-person {
+    position: absolute;
+    left: 2.5%;
+    top: 5%;
+    width: 95%;
+    height: auto;
+    transform: translateZ(38px);
+    filter: drop-shadow(0 12px 10px rgba(25, 23, 19, .38));
+    pointer-events: none;
+}
+
+.id-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 23.5%;
+    padding: 12px 14px 0;
+    border-radius: 0 0 20px 20px;
+    background: #191713;
+    color: #f8f3e8;
+    transform: translateZ(46px);
+}
+
+body.dark .id-bar { background: #2e2a22; }
+
+.id-bar strong {
+    display: block;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.id-bar span {
+    display: block;
+    margin-top: 6px;
+    font-size: .68rem;
+    letter-spacing: .04em;
+    color: rgba(248, 243, 232, .75);
+}
+
+/* ---------- BELAKANG ---------- */
+
+.id-back {
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    padding: 34px 14px 14px;
+    border-radius: 20px;
+    border: 2px solid #191713;
+    background: #191713;
+    color: #f8f3e8;
+    overflow: hidden;
+    box-shadow: 0 28px 44px rgba(10, 10, 6, .38);
+}
+
+.id-back .id-slot { background: rgba(248, 243, 232, .25); }
+
+.id-back-title {
+    margin: 2px 0 14px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 2rem;
+    line-height: 1;
+    color: #e07a59;
+}
+
+.id-links { display: grid; gap: 8px; list-style: none; }
+
+.id-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    font-size: .88rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #f8f3e8;
+    border-radius: 12px;
+    background: rgba(248, 243, 232, .1);
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.id-links a:hover { background: #e9cf69; color: #191713; }
+.id-links i { width: 1.1em; text-align: center; }
+
+.id-back-note {
+    margin-top: auto;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.2;
+    color: rgba(248, 243, 232, .65);
+}
+
+/* ---------- Catatan dan tombol ---------- */
+
+.stage-note {
+    position: absolute;
+    left: 0;
+    bottom: 22px;
+    z-index: 2;
+    color: var(--muted);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.4rem;
+    line-height: 1.1;
+    transform: rotate(-3deg);
+    transition: opacity .4s ease;
+    pointer-events: none;
+}
+
+.stage-note.hide { opacity: 0; }
+
+.flip-btn {
+    position: absolute;
+    right: 0;
+    bottom: 14px;
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 17px;
+    font: 600 .86rem var(--sans);
+    color: #191713;
+    background: #f8f3e8;
+    border: 2px solid #191713;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform .15s ease, background-color .15s ease;
+}
+
+.flip-btn:hover { transform: translateY(-2px); background: #e9cf69; }
+
+.stage :focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
+
+body.dark .stage :focus-visible { outline-color: #f8f3e8; }
+
+@media (max-width: 1100px) {
+
+    .hero-photo-area.lanyard-area {
+        align-self: auto;
+        min-height: 0;
+    }
+
+    .stage {
+        --card-w: clamp(196px, 50vw, 232px);
+        position: relative;
+        top: auto !important;
+        height: 600px;
+        max-width: 580px;
+        margin-inline: auto;
+    }
+
+    .stage-note { left: 8px; }
+    .flip-btn { right: 8px; }
+}
+
+@media (max-width: 420px) {
+    .id-bar strong { font-size: 1.12rem; }
+    .id-bar span { font-size: .62rem; }
+    .stage-note { font-size: 1.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .id-inner, .flip-btn { transition: none; }
+}
