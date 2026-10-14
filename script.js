@@ -611,3 +611,591 @@ console.log(
 console.log(
     "Built by Khudzaifah Hannan Burhanuddin."
 );
+
+
+/* ==========================================================
+   LANYARD ID CARD
+   Fisika tali Verlet tanpa library. Tali = rantai titik dengan
+   jarak tetap; kartu = dua titik (jepitan dan dasar kartu).
+   Kartu juga miring ke arah gerakan (efek 3D) dan mengikuti
+   kursor saat di-hover.
+========================================================== */
+
+(function () {
+
+    "use strict";
+
+    const stage = document.getElementById("stage");
+    const canvas = document.getElementById("lanyardCanvas");
+    const card = document.getElementById("idCard");
+    const tiltEl = document.getElementById("idTilt");
+    const flipBtn = document.getElementById("flipBtn");
+    const note = document.getElementById("stageNote");
+
+    if (!stage || !canvas || !card) return;
+
+    const ctx = canvas.getContext("2d");
+    const area = stage.parentElement;
+
+    const prefersReduced =
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+
+    /* --- parameter --- */
+
+    const SEGMENTS = 12;
+    const GRAVITY = 0.62;
+    const DAMPING = prefersReduced ? 0.97 : 0.989;
+    const ITERATIONS = 18;
+    const STEP = 1000 / 60;
+    const CORD_W = 4;
+
+    const isDark = () => document.body.classList.contains("dark");
+    const cordColor = () => (isDark() ? "#f1ead9" : "#14120e");
+    const pegInner = () => (isDark() ? "#14120e" : "#f8f3e8");
+
+    const isWide = () => window.matchMedia("(min-width: 1101px)").matches;
+
+
+    let W = 0, H = 0, dpr = 1;
+    let builtW = 0, builtH = 0;
+    let anchorY = 26;
+    let cardW = 0, cardH = 0, segLen = 0, ropeLen = 0;
+    let pts = [];
+    let rests = [];
+    let drag = null;
+    let running = false;
+    let lastT = 0, acc = 0, calm = 0;
+    let firstBuild = true;
+    let startTimer = 0;
+
+    /* kemiringan 3D: nilai sekarang dan target */
+    const tilt = { rx: 0, ry: 0 };
+    const hover = { rx: 0, ry: 0 };
+
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+
+    function addPoint(x, y, mass) {
+
+        pts.push({
+            x: x, y: y, ox: x, oy: y,
+            inv: mass === 0 ? 0 : 1 / mass
+        });
+
+    }
+
+
+    /* Di layar lebar, tali ditarik sampai tepi atas halaman */
+    function layoutStage() {
+
+        if (isWide()) {
+
+            const top = area.getBoundingClientRect().top + window.scrollY;
+
+            stage.style.top = (-top) + "px";
+
+        } else {
+
+            stage.style.top = "";
+
+        }
+
+    }
+
+
+    function build() {
+
+        layoutStage();
+
+        const r = stage.getBoundingClientRect();
+
+        W = r.width;
+        H = r.height;
+        builtW = W;
+        builtH = H;
+
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        cardW = card.offsetWidth;
+        cardH = card.offsetHeight;
+
+        /* layar lebar: tali muncul dari luar layar; layar sempit: dari paku */
+        anchorY = isWide() ? -16 : 26;
+
+        ropeLen = clamp(H - cardH - anchorY - 120, 80, 420);
+        segLen = ropeLen / SEGMENTS;
+
+        const tiltAngle = firstBuild && !prefersReduced ? 0.55 : 0;
+        const wasFirst = firstBuild;
+
+        firstBuild = false;
+
+        const ax = W / 2;
+
+        pts = [];
+        rests = [];
+
+        addPoint(ax, anchorY, 0);
+
+        for (let i = 1; i <= SEGMENTS; i++) {
+
+            const d = segLen * i;
+
+            addPoint(
+                ax + Math.sin(tiltAngle) * d,
+                anchorY + Math.cos(tiltAngle) * d,
+                i === SEGMENTS ? 2.5 : 1
+            );
+
+            rests.push(segLen);
+
+        }
+
+        const d2 = ropeLen + cardH;
+
+        addPoint(
+            ax + Math.sin(tiltAngle) * d2,
+            anchorY + Math.cos(tiltAngle) * d2,
+            4
+        );
+
+        rests.push(cardH);
+
+        render();
+
+        if (wasFirst && !prefersReduced) {
+
+            clearTimeout(startTimer);
+            startTimer = setTimeout(wake, 1000);
+
+        } else {
+
+            wake();
+
+        }
+
+    }
+
+
+    function simulate() {
+
+        for (let i = 1; i < pts.length; i++) {
+
+            const p = pts[i];
+
+            const vx = (p.x - p.ox) * DAMPING;
+            const vy = (p.y - p.oy) * DAMPING;
+
+            p.ox = p.x;
+            p.oy = p.y;
+
+            p.x += vx;
+            p.y += vy + GRAVITY;
+
+        }
+
+
+        if (drag) {
+
+            const C = pts[SEGMENTS];
+            const B = pts[SEGMENTS + 1];
+
+            const gx = C.x + (B.x - C.x) * drag.t;
+            const gy = C.y + (B.y - C.y) * drag.t;
+
+            let dx = drag.x - gx;
+            let dy = drag.y - gy;
+
+            const len = Math.hypot(dx, dy);
+            const maxPull = 46;
+
+            if (len > maxPull) {
+                dx *= maxPull / len;
+                dy *= maxPull / len;
+            }
+
+            C.x += dx * (1 - drag.t) * 0.9;
+            C.y += dy * (1 - drag.t) * 0.9;
+            B.x += dx * drag.t * 0.9;
+            B.y += dy * drag.t * 0.9;
+
+        }
+
+
+        for (let k = 0; k < ITERATIONS; k++) {
+
+            for (let i = 0; i < rests.length; i++) {
+
+                const a = pts[i];
+                const b = pts[i + 1];
+
+                const dx = b.x - a.x;
+                const dy = b.y - a.y;
+
+                const dist = Math.hypot(dx, dy) || 0.0001;
+                const diff = (dist - rests[i]) / dist;
+                const wsum = a.inv + b.inv;
+
+                if (wsum === 0) continue;
+
+                const ca = (diff * a.inv) / wsum;
+                const cb = (diff * b.inv) / wsum;
+
+                a.x += dx * ca;
+                a.y += dy * ca;
+                b.x -= dx * cb;
+                b.y -= dy * cb;
+
+            }
+
+            for (let i = 1; i < pts.length; i++) {
+
+                const p = pts[i];
+
+                const mx = i >= SEGMENTS ? cardW * 0.6 + 6 : 8;
+                const bottom = i === SEGMENTS + 1 ? 14 + cardW * 0.2 : 8;
+
+                p.x = clamp(p.x, mx, W - mx);
+                p.y = clamp(p.y, -80, H - bottom);
+
+            }
+
+        }
+
+    }
+
+
+    /* kemiringan 3D mengikuti kecepatan kartu + posisi kursor */
+    function updateTilt() {
+
+        if (!tiltEl) return 0;
+
+        if (prefersReduced) {
+            tiltEl.style.transform = "";
+            return 0;
+        }
+
+        const C = pts[SEGMENTS];
+
+        const vx = C.x - C.ox;
+        const vy = C.y - C.oy;
+
+        const targetRy = clamp(vx * 2.6 + hover.ry, -30, 30);
+        const targetRx = clamp(-vy * 1.4 + hover.rx, -16, 16);
+
+        const dRy = targetRy - tilt.ry;
+        const dRx = targetRx - tilt.rx;
+
+        tilt.ry += dRy * 0.16;
+        tilt.rx += dRx * 0.16;
+
+        tiltEl.style.transform =
+            "rotateX(" + tilt.rx.toFixed(2) + "deg) " +
+            "rotateY(" + tilt.ry.toFixed(2) + "deg)";
+
+        return Math.abs(dRy) + Math.abs(dRx);
+
+    }
+
+
+    function render() {
+
+        ctx.clearRect(0, 0, W, H);
+
+        const rope = pts.slice(0, SEGMENTS + 1);
+
+        const path = () => {
+
+            ctx.beginPath();
+            ctx.moveTo(rope[0].x, rope[0].y);
+
+            for (let i = 1; i < rope.length - 1; i++) {
+
+                const mx = (rope[i].x + rope[i + 1].x) / 2;
+                const my = (rope[i].y + rope[i + 1].y) / 2;
+
+                ctx.quadraticCurveTo(rope[i].x, rope[i].y, mx, my);
+
+            }
+
+            const last = rope[rope.length - 1];
+
+            ctx.lineTo(last.x, last.y);
+
+        };
+
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+
+        path();
+        ctx.lineWidth = CORD_W + 3;
+        ctx.strokeStyle = "rgba(0, 0, 0, 0.16)";
+        ctx.stroke();
+
+        path();
+        ctx.lineWidth = CORD_W;
+        ctx.strokeStyle = cordColor();
+        ctx.stroke();
+
+        /* paku hanya terlihat di layar sempit */
+        if (anchorY > 0) {
+
+            const a = rope[0];
+
+            ctx.beginPath();
+            ctx.arc(a.x, a.y - 2, 11, 0, Math.PI * 2);
+            ctx.fillStyle = cordColor();
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(a.x, a.y - 2, 4.5, 0, Math.PI * 2);
+            ctx.fillStyle = pegInner();
+            ctx.fill();
+
+        }
+
+
+        const C = pts[SEGMENTS];
+        const B = pts[SEGMENTS + 1];
+
+        const phi = Math.atan2(-(B.x - C.x), B.y - C.y);
+
+        card.style.transform =
+            "translate3d(" + (C.x - cardW / 2).toFixed(2) + "px, " +
+            C.y.toFixed(2) + "px, 0) rotate(" + phi.toFixed(4) + "rad)";
+
+    }
+
+
+    function loop(t) {
+
+        if (!lastT) lastT = t;
+
+        acc += Math.min(t - lastT, 64);
+        lastT = t;
+
+        while (acc >= STEP) {
+            simulate();
+            acc -= STEP;
+        }
+
+        const tiltDelta = updateTilt();
+
+        render();
+
+        let energy = tiltDelta * 0.05;
+
+        for (let i = 1; i < pts.length; i++) {
+            energy += Math.abs(pts[i].x - pts[i].ox) +
+                      Math.abs(pts[i].y - pts[i].oy);
+        }
+
+        calm = energy < 0.06 && !drag ? calm + 1 : 0;
+
+        if (calm > 40) {
+            running = false;
+            lastT = 0;
+            return;
+        }
+
+        requestAnimationFrame(loop);
+
+    }
+
+
+    function wake() {
+
+        calm = 0;
+
+        if (running) return;
+
+        running = true;
+        lastT = 0;
+        acc = 0;
+
+        requestAnimationFrame(loop);
+
+    }
+
+
+    /* --- interaksi --- */
+
+    function stagePoint(e) {
+
+        const r = stage.getBoundingClientRect();
+
+        return { x: e.clientX - r.left, y: e.clientY - r.top };
+
+    }
+
+    function hideNote() {
+        if (note) note.classList.add("hide");
+    }
+
+    function toggleFlip() {
+
+        const flipped = card.classList.toggle("flipped");
+
+        if (flipBtn) flipBtn.setAttribute("aria-pressed", String(flipped));
+
+    }
+
+
+    card.addEventListener("pointerdown", e => {
+
+        if (e.target.closest("a, button")) return;
+
+        e.preventDefault();
+
+        try { card.setPointerCapture(e.pointerId); } catch (err) { /* abaikan */ }
+
+        clearTimeout(startTimer);
+
+        const s = stagePoint(e);
+        const C = pts[SEGMENTS];
+        const B = pts[SEGMENTS + 1];
+
+        const vx = B.x - C.x;
+        const vy = B.y - C.y;
+
+        const t = clamp(
+            ((s.x - C.x) * vx + (s.y - C.y) * vy) / (vx * vx + vy * vy),
+            0.04, 0.98
+        );
+
+        drag = {
+            id: e.pointerId, t: t,
+            x: s.x, y: s.y, sx: s.x, sy: s.y,
+            time: performance.now(), moved: false
+        };
+
+        hover.rx = 0;
+        hover.ry = 0;
+
+        card.classList.add("dragging");
+        hideNote();
+        wake();
+
+    });
+
+
+    card.addEventListener("pointermove", e => {
+
+        if (drag && e.pointerId === drag.id) {
+
+            const s = stagePoint(e);
+
+            drag.x = s.x;
+            drag.y = s.y;
+
+            if (Math.hypot(s.x - drag.sx, s.y - drag.sy) > 6) drag.moved = true;
+
+            wake();
+            return;
+
+        }
+
+        /* kemiringan 3D mengikuti kursor (hanya mouse) */
+        if (e.pointerType === "mouse" && !prefersReduced) {
+
+            const r = card.getBoundingClientRect();
+
+            const px = clamp((e.clientX - r.left) / r.width, 0, 1);
+            const py = clamp((e.clientY - r.top) / r.height, 0, 1);
+
+            hover.ry = (px - 0.5) * 30;
+            hover.rx = -(py - 0.5) * 18;
+
+            wake();
+
+        }
+
+    });
+
+
+    card.addEventListener("pointerleave", () => {
+
+        hover.rx = 0;
+        hover.ry = 0;
+
+        wake();
+
+    });
+
+
+    function endDrag(e) {
+
+        if (!drag || e.pointerId !== drag.id) return;
+
+        const quick = performance.now() - drag.time < 450;
+
+        if (!drag.moved && quick) toggleFlip();
+
+        drag = null;
+        card.classList.remove("dragging");
+        wake();
+
+    }
+
+    card.addEventListener("pointerup", endDrag);
+    card.addEventListener("pointercancel", endDrag);
+
+
+    if (flipBtn) {
+
+        flipBtn.addEventListener("click", () => {
+
+            toggleFlip();
+            hideNote();
+
+            const B = pts[SEGMENTS + 1];
+
+            if (B && !prefersReduced) B.ox -= 4;
+
+            wake();
+
+        });
+
+    }
+
+
+    /* --- ukuran --- */
+
+    let resizeTimer;
+
+    function checkSize() {
+
+        layoutStage();
+
+        const r = stage.getBoundingClientRect();
+
+        if (Math.abs(r.width - builtW) < 1 &&
+            Math.abs(r.height - builtH) < 1) return;
+
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(build, 120);
+
+    }
+
+    if ("ResizeObserver" in window) {
+        new ResizeObserver(checkSize).observe(area);
+    }
+
+    window.addEventListener("resize", checkSize);
+    window.addEventListener("load", checkSize);
+
+
+    /* gambar ulang tali saat mode terang/gelap berganti */
+    new MutationObserver(render).observe(document.body, {
+        attributes: true,
+        attributeFilter: ["class"]
+    });
+
+    build();
+
+})();
