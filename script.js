@@ -19,7 +19,7 @@ window.addEventListener("load", () => {
 
         loader.classList.add("hide");
 
-    }, 700);
+    }, 400);
 
 });
 
@@ -115,59 +115,22 @@ if (menuBtn && mobileNav) {
 }
 
 
-/* ==========================================================
-   DARK MODE
-========================================================== */
-
-const themeBtn =
-    document.getElementById("themeBtn");
-
-const savedTheme =
-    localStorage.getItem("hannan-theme");
-
-
-if (themeBtn) {
-
-    if (savedTheme === "dark") {
-
-        document.body.classList.add("dark");
-
-        themeBtn.innerHTML =
-            '<i class="fa-solid fa-sun"></i>';
-
-    }
-
-
-    themeBtn.addEventListener("click", () => {
-
-        document.body.classList.toggle("dark");
-
-        const darkMode =
-            document.body.classList.contains("dark");
-
-
-        localStorage.setItem(
-            "hannan-theme",
-            darkMode ? "dark" : "light"
-        );
-
-
-        if (darkMode) {
-
-            themeBtn.innerHTML =
-                '<i class="fa-solid fa-sun"></i>';
-
-        } else {
-
-            themeBtn.innerHTML =
-                '<i class="fa-solid fa-moon"></i>';
-
-        }
-
-    });
-
+/* DARK MODE (aman di mode privasi, ikut preferensi sistem) */
+const themeBtn = document.getElementById("themeBtn");
+function setThemeIcon() {
+    if (!themeBtn) return;
+    themeBtn.innerHTML = document.body.classList.contains("dark")
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
 }
-
+setThemeIcon();
+if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+        const dark = document.body.classList.toggle("dark");
+        try { localStorage.setItem("hannan-theme", dark ? "dark" : "light"); } catch (e) {}
+        setThemeIcon();
+    });
+}
 
 /* ==========================================================
    ACTIVE NAVIGATION
@@ -1290,4 +1253,102 @@ console.log(
 
     build();
 
+})();
+
+/* ==========================================================
+   UPGRADE: reveal, count-up, filter, aksesibilitas
+========================================================== */
+(function () {
+    "use strict";
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const mb = document.getElementById("menuBtn"), mn = document.getElementById("mobileNav");
+    if (mb && mn) {
+        const sync = () => mb.setAttribute("aria-expanded", String(mn.classList.contains("open")));
+        mb.addEventListener("click", sync);
+        mn.querySelectorAll("a").forEach(a => a.addEventListener("click", sync));
+    }
+
+    const modal = document.getElementById("certificateModal");
+    const closeBtn = document.getElementById("certificateModalClose");
+    let lastFocus = null;
+    document.querySelectorAll(".certificate-image-wrapper").forEach(w => {
+        w.addEventListener("click", () => { lastFocus = w; });
+        w.addEventListener("keydown", e => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                lastFocus = w;
+                const img = w.querySelector("img");
+                if (img) img.click();
+                if (closeBtn) closeBtn.focus();
+            }
+        });
+    });
+    if (modal && "MutationObserver" in window) {
+        new MutationObserver(() => {
+            if (!modal.classList.contains("open") && lastFocus) { lastFocus.focus(); lastFocus = null; }
+        }).observe(modal, { attributes: true, attributeFilter: ["class"] });
+    }
+
+    const list = document.querySelector(".experience-list");
+    if (list) {
+        const items = [...list.querySelectorAll(".experience-item")];
+        const types = [["all", "Semua"], ["Organization", "Organisasi"], ["Committee", "Kepanitiaan"]];
+        const bar = document.createElement("div");
+        bar.className = "exp-filter";
+        bar.setAttribute("role", "group");
+        bar.setAttribute("aria-label", "Filter pengalaman");
+        types.forEach(([key, label], i) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.textContent = label;
+            b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+            b.addEventListener("click", () => {
+                bar.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", "false"));
+                b.setAttribute("aria-pressed", "true");
+                items.forEach(it => {
+                    const s = it.querySelector("span");
+                    it.hidden = key !== "all" && (!s || s.textContent.trim() !== key);
+                });
+            });
+            bar.appendChild(b);
+        });
+        list.parentNode.insertBefore(bar, list);
+    }
+
+    const nums = document.querySelectorAll("[data-count]");
+    const run = el => {
+        const end = +el.dataset.count;
+        if (reduced) { el.textContent = end; return; }
+        const t0 = performance.now(), dur = 1300;
+        const tick = t => {
+            const p = Math.min((t - t0) / dur, 1);
+            el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+            if (p < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = "0";
+        requestAnimationFrame(tick);
+    };
+    if ("IntersectionObserver" in window) {
+        const co = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) { co.unobserve(e.target); run(e.target); }
+        }), { threshold: 0.6 });
+        nums.forEach(n => co.observe(n));
+    }
+
+    if (reduced || !("IntersectionObserver" in window)) return;
+    const sel = ".section-heading,.about-grid,.project-card,.work-note,.skill-row,.soft-skills,.experience-item,.education-grid,.certificate-card,.contact-inner,.stats-inner";
+    const io = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        io.unobserve(el);
+        el.classList.add("in");
+        setTimeout(() => { el.classList.remove("js-reveal", "in"); el.style.transitionDelay = ""; }, 1100);
+    }), { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    document.querySelectorAll(sel).forEach(el => {
+        const sib = [...el.parentNode.children].filter(c => c.matches(sel));
+        el.style.transitionDelay = Math.min(sib.indexOf(el), 5) * 70 + "ms";
+        el.classList.add("js-reveal");
+        io.observe(el);
+    });
 })();
