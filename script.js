@@ -616,9 +616,10 @@ console.log(
 /* ==========================================================
    LANYARD ID CARD
    Fisika tali Verlet tanpa library. Tali = rantai titik dengan
-   jarak tetap; kartu = dua titik (jepitan dan dasar kartu).
+   jarak tetap; kartu = dua titik (ujung tali dan dasar kartu).
    Kartu juga miring ke arah gerakan (efek 3D) dan mengikuti
-   kursor saat di-hover.
+   kursor saat di-hover. Pantulan cahaya di holder bergerak
+   sesuai kemiringan.
 ========================================================== */
 
 (function () {
@@ -631,8 +632,13 @@ console.log(
     const tiltEl = document.getElementById("idTilt");
     const flipBtn = document.getElementById("flipBtn");
     const note = document.getElementById("stageNote");
+    const person = document.getElementById("idPerson");
+    const shadow = document.getElementById("idShadow");
 
     if (!stage || !canvas || !card) return;
+
+    /* bayangan foto memakai gambar yang sama */
+    if (person && shadow) shadow.src = person.src;
 
     const ctx = canvas.getContext("2d");
     const area = stage.parentElement;
@@ -648,11 +654,13 @@ console.log(
     const DAMPING = prefersReduced ? 0.97 : 0.989;
     const ITERATIONS = 18;
     const STEP = 1000 / 60;
-    const CORD_W = 4;
 
-    const isDark = () => document.body.classList.contains("dark");
-    const cordColor = () => (isDark() ? "#f1ead9" : "#14120e");
-    const pegInner = () => (isDark() ? "#14120e" : "#f8f3e8");
+    /* tali kain bermotif kotak */
+    const STRAP_W = 24;
+    const CELL = 12;
+    const STRAP_A = "#c65a3a";
+    const STRAP_B = "#f8f3e8";
+    const STRAP_EDGE = "rgba(25, 23, 19, 0.88)";
 
     const isWide = () => window.matchMedia("(min-width: 1101px)").matches;
 
@@ -669,7 +677,6 @@ console.log(
     let firstBuild = true;
     let startTimer = 0;
 
-    /* kemiringan 3D: nilai sekarang dan target */
     const tilt = { rx: 0, ry: 0 };
     const hover = { rx: 0, ry: 0 };
 
@@ -724,10 +731,16 @@ console.log(
         cardW = card.offsetWidth;
         cardH = card.offsetHeight;
 
-        /* layar lebar: tali muncul dari luar layar; layar sempit: dari paku */
         anchorY = isWide() ? -16 : 26;
 
-        ropeLen = clamp(H - cardH - anchorY - 120, 80, 420);
+        /* tali: cukup panjang, tapi kartu harus tetap muat di layar */
+        let rope = H - cardH - anchorY - 120;
+
+        if (isWide()) {
+            rope = Math.min(rope, window.innerHeight - 46 - cardH - anchorY);
+        }
+
+        ropeLen = clamp(rope, 50, 460);
         segLen = ropeLen / SEGMENTS;
 
         const tiltAngle = firstBuild && !prefersReduced ? 0.55 : 0;
@@ -857,7 +870,7 @@ console.log(
 
                 const p = pts[i];
 
-                const mx = i >= SEGMENTS ? cardW * 0.6 + 6 : 8;
+                const mx = i >= SEGMENTS ? cardW * 0.62 + 6 : 8;
                 const bottom = i === SEGMENTS + 1 ? 14 + cardW * 0.2 : 8;
 
                 p.x = clamp(p.x, mx, W - mx);
@@ -885,8 +898,8 @@ console.log(
         const vx = C.x - C.ox;
         const vy = C.y - C.oy;
 
-        const targetRy = clamp(vx * 2.6 + hover.ry, -30, 30);
-        const targetRx = clamp(-vy * 1.4 + hover.rx, -16, 16);
+        const targetRy = clamp(vx * 2.8 + hover.ry, -34, 34);
+        const targetRx = clamp(-vy * 1.5 + hover.rx, -18, 18);
 
         const dRy = targetRy - tilt.ry;
         const dRx = targetRx - tilt.rx;
@@ -898,17 +911,20 @@ console.log(
             "rotateX(" + tilt.rx.toFixed(2) + "deg) " +
             "rotateY(" + tilt.ry.toFixed(2) + "deg)";
 
+        /* pantulan cahaya bergeser mengikuti kemiringan */
+        tiltEl.style.setProperty("--gx", (30 - tilt.ry * 1.8).toFixed(1) + "%");
+        tiltEl.style.setProperty("--gy", (18 + tilt.rx * 2.4).toFixed(1) + "%");
+
         return Math.abs(dRy) + Math.abs(dRx);
 
     }
 
 
-    function render() {
+    /* --- menggambar tali kain bermotif kotak --- */
 
-        ctx.clearRect(0, 0, W, H);
+    function drawStrap(rope) {
 
-        const rope = pts.slice(0, SEGMENTS + 1);
-
+        /* alas: warna dasar + garis tepi */
         const path = () => {
 
             ctx.beginPath();
@@ -930,32 +946,111 @@ console.log(
         };
 
         ctx.lineJoin = "round";
-        ctx.lineCap = "round";
+        ctx.lineCap = "butt";
 
         path();
-        ctx.lineWidth = CORD_W + 3;
-        ctx.strokeStyle = "rgba(0, 0, 0, 0.16)";
+        ctx.lineWidth = STRAP_W + 3;
+        ctx.strokeStyle = STRAP_EDGE;
         ctx.stroke();
 
         path();
-        ctx.lineWidth = CORD_W;
-        ctx.strokeStyle = cordColor();
+        ctx.lineWidth = STRAP_W;
+        ctx.strokeStyle = STRAP_B;
         ctx.stroke();
 
-        /* paku hanya terlihat di layar sempit */
+
+        /* motif kotak: 2 kolom kotak yang mengikuti lengkung tali */
+        const segs = [];
+        let total = 0;
+
+        for (let i = 0; i < rope.length - 1; i++) {
+
+            const dx = rope[i + 1].x - rope[i].x;
+            const dy = rope[i + 1].y - rope[i].y;
+            const len = Math.hypot(dx, dy) || 0.0001;
+
+            segs.push({ i: i, len: len, ux: dx / len, uy: dy / len, start: total });
+
+            total += len;
+
+        }
+
+        const at = d => {
+
+            let s = segs[segs.length - 1];
+
+            for (let k = 0; k < segs.length; k++) {
+                if (d <= segs[k].start + segs[k].len) { s = segs[k]; break; }
+            }
+
+            const t = clamp(d - s.start, 0, s.len);
+
+            return {
+                x: rope[s.i].x + s.ux * t,
+                y: rope[s.i].y + s.uy * t,
+                nx: -s.uy,
+                ny: s.ux
+            };
+
+        };
+
+        const cells = Math.ceil(total / CELL);
+
+        ctx.fillStyle = STRAP_A;
+
+        for (let k = 0; k < cells; k++) {
+
+            const p0 = at(k * CELL);
+            const p1 = at(Math.min((k + 1) * CELL, total));
+
+            for (let col = 0; col < 2; col++) {
+
+                if ((k + col) % 2) continue;
+
+                const o0 = -STRAP_W / 2 + col * (STRAP_W / 2);
+                const o1 = o0 + STRAP_W / 2;
+
+                ctx.beginPath();
+                ctx.moveTo(p0.x + p0.nx * o0, p0.y + p0.ny * o0);
+                ctx.lineTo(p1.x + p1.nx * o0, p1.y + p1.ny * o0);
+                ctx.lineTo(p1.x + p1.nx * o1, p1.y + p1.ny * o1);
+                ctx.lineTo(p0.x + p0.nx * o1, p0.y + p0.ny * o1);
+                ctx.closePath();
+                ctx.fill();
+
+            }
+
+        }
+
+    }
+
+
+    function render() {
+
+        ctx.clearRect(0, 0, W, H);
+
+        const rope = pts.slice(0, SEGMENTS + 1);
+
+        drawStrap(rope);
+
+        /* layar sempit: tali dijepit oleh klip kecil di atas */
         if (anchorY > 0) {
 
             const a = rope[0];
 
+            ctx.fillStyle = "#191713";
             ctx.beginPath();
-            ctx.arc(a.x, a.y - 2, 11, 0, Math.PI * 2);
-            ctx.fillStyle = cordColor();
+
+            if (ctx.roundRect) {
+                ctx.roundRect(a.x - 20, a.y - 16, 40, 18, 6);
+            } else {
+                ctx.rect(a.x - 20, a.y - 16, 40, 18);
+            }
+
             ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(a.x, a.y - 2, 4.5, 0, Math.PI * 2);
-            ctx.fillStyle = pegInner();
-            ctx.fill();
+            ctx.fillStyle = "rgba(248, 243, 232, 0.35)";
+            ctx.fillRect(a.x - 12, a.y - 10, 24, 3);
 
         }
 
@@ -1065,7 +1160,7 @@ console.log(
 
         const t = clamp(
             ((s.x - C.x) * vx + (s.y - C.y) * vy) / (vx * vx + vy * vy),
-            0.04, 0.98
+            0.2, 0.98
         );
 
         drag = {
@@ -1108,8 +1203,8 @@ console.log(
             const px = clamp((e.clientX - r.left) / r.width, 0, 1);
             const py = clamp((e.clientY - r.top) / r.height, 0, 1);
 
-            hover.ry = (px - 0.5) * 30;
-            hover.rx = -(py - 0.5) * 18;
+            hover.ry = (px - 0.5) * 36;
+            hover.rx = -(py - 0.5) * 20;
 
             wake();
 
@@ -1186,15 +1281,12 @@ console.log(
         new ResizeObserver(checkSize).observe(area);
     }
 
-    window.addEventListener("resize", checkSize);
-    window.addEventListener("load", checkSize);
-
-
-    /* gambar ulang tali saat mode terang/gelap berganti */
-    new MutationObserver(render).observe(document.body, {
-        attributes: true,
-        attributeFilter: ["class"]
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(build, 150);
     });
+
+    window.addEventListener("load", checkSize);
 
     build();
 
