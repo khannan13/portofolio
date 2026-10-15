@@ -737,7 +737,7 @@ console.log(
         let rope = H - cardH - anchorY - 120;
 
         if (isWide()) {
-            rope = Math.min(rope, window.innerHeight - 46 - cardH - anchorY);
+            rope = Math.min(rope, window.innerHeight - 70 - cardH - anchorY);
         }
 
         ropeLen = clamp(rope, 50, 460);
