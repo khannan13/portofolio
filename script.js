@@ -1316,28 +1316,8 @@ console.log(
         list.parentNode.insertBefore(bar, list);
     }
 
-    const nums = document.querySelectorAll("[data-count]");
-    const run = el => {
-        const end = +el.dataset.count;
-        if (reduced) { el.textContent = end; return; }
-        const t0 = performance.now(), dur = 1300;
-        const tick = t => {
-            const p = Math.min((t - t0) / dur, 1);
-            el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
-            if (p < 1) requestAnimationFrame(tick);
-        };
-        el.textContent = "0";
-        requestAnimationFrame(tick);
-    };
-    if ("IntersectionObserver" in window) {
-        const co = new IntersectionObserver(es => es.forEach(e => {
-            if (e.isIntersecting) { co.unobserve(e.target); run(e.target); }
-        }), { threshold: 0.6 });
-        nums.forEach(n => co.observe(n));
-    }
-
     if (reduced || !("IntersectionObserver" in window)) return;
-    const sel = ".section-heading,.about-grid,.project-card,.work-note,.skill-row,.soft-skills,.experience-item,.education-grid,.certificate-card,.contact-inner,.stats-inner";
+    const sel = ".section-heading,.about-grid,.project-card,.work-note,.skill-row,.soft-skills,.experience-item,.education-grid,.certificate-card,.contact-inner";
     const io = new IntersectionObserver(es => es.forEach(e => {
         if (!e.isIntersecting) return;
         const el = e.target;
@@ -1351,4 +1331,19 @@ console.log(
         el.classList.add("js-reveal");
         io.observe(el);
     });
+})();
+
+/* ==========================================================
+   DIVIDER: garis menggambar dirinya saat terlihat
+========================================================== */
+(function () {
+    "use strict";
+    const el = document.getElementById("heroDivider");
+    if (!el || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    el.classList.add("is-wait");
+    const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { el.classList.remove("is-wait"); io.disconnect(); }
+    }), { threshold: 0.6 });
+    io.observe(el);
 })();
