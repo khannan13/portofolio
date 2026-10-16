@@ -3817,3 +3817,73 @@ body.dark .exp-filter button:focus-visible { outline-color: var(--ink); }
 @keyframes dividerSpin { to { transform: rotate(360deg); } }
 @media (max-width: 700px) { .divider-text { display: none; } .divider { padding: 20px 20px; } }
 @media (prefers-reduced-motion: reduce) { .divider-line::after, .divider-star i { animation: none; } }
+
+
+/* ==========================================================
+   NAMA OUTLINE BERSIH (Inter, garis tipis)
+========================================================== */
+.hero h1.hero-giant {
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 800; letter-spacing: -.03em; line-height: .88;
+    -webkit-text-stroke: 0; color: rgb(25, 23, 19);
+}
+body.dark .hero h1.hero-giant { color: rgb(238, 230, 215); }
+.hero h1.hero-giant > span {
+    display: block; width: max-content; margin-inline: auto;
+    color: inherit; filter: url(#outlineText); opacity: .68;
+}
+
+/* ==========================================================
+   MONOGRAM DIVIDER
+========================================================== */
+.divider-star { width: 34px; height: 34px; }
+.divider-star i { animation: none; font: italic 400 17px/1 var(--serif); letter-spacing: -.02em; color: var(--ink); }
+.divider-star i b { font-weight: 400; color: var(--orange); }
+
+/* ==========================================================
+   TALI SAMPAI ATAS HALAMAN DI HP
+========================================================== */
+@media (max-width: 1100px) {
+    .hero-photo-area.lanyard-area { height: calc(clamp(190px, 52vw, 236px) * 2.12 + 300px); }
+    .stage { position: absolute !important; left: 0; right: 0; bottom: 0; height: auto !important; max-width: 580px; margin-inline: auto; }
+}
+
+/* ==========================================================
+   KARTU LEBIH NYATA
+========================================================== */
+.id-holder::before {
+    box-shadow: 0 0 0 1px rgba(25, 23, 19, .32), inset 0 0 14px rgba(255, 255, 255, .55),
+        inset 0 0 0 4px rgba(255, 255, 255, .16), 2px 3px 0 -.5px #d9d3c2, 0 26px 40px rgba(10, 10, 6, .34);
+}
+.id-slot { box-shadow: inset 0 1px 2px rgba(0, 0, 0, .8), 0 0 0 2px rgba(255, 255, 255, .55), 0 0 0 3px rgba(25, 23, 19, .25); }
+.id-plate {
+    background: repeating-linear-gradient(115deg, rgba(255, 255, 255, .045) 0 1px, transparent 1px 5px),
+        linear-gradient(165deg, #dc6a43 0%, #c65a3a 45%, #a9432a 100%);
+    box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .16), 0 2px 6px rgba(10, 10, 6, .25);
+}
+
+
+/* ==========================================================
+   KAIT BESAR + FOTO KARTU BERSIH
+========================================================== */
+.id-card { --hw: calc(var(--card-w) * .5); }
+.id-hw { width: calc(var(--card-w) * .29); }
+@media (min-width: 1101px) {
+    .stage { --card-w: clamp(176px, min(16.5vw, calc((100vh - 300px) / 2.3)), 240px); }
+}
+@media (max-width: 1100px) {
+    .hero-photo-area.lanyard-area { height: calc(clamp(190px, 52vw, 236px) * 2.3 + 300px); }
+}
+.id-person { clip-path: inset(-20% 3.8% 0 3.8% round 0 0 12px 12px); }
+.id-person-shadow { clip-path: inset(-20% 3.8% 0 3.8%); }
+
+
+/* ==========================================================
+   KILAU KARTU LEBIH HALUS (tidak memutihkan foto)
+========================================================== */
+.id-glass {
+    background:
+        radial-gradient(circle at var(--gx, 30%) var(--gy, 18%), rgba(255, 255, 255, .12), rgba(255, 255, 255, 0) 42%),
+        linear-gradient(112deg, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, .06) 50%, rgba(255, 255, 255, 0) 60%);
+}
+.id-person { image-rendering: auto; }
