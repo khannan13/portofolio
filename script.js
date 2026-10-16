@@ -612,14 +612,14 @@ console.log(
 
     /* --- parameter --- */
 
-    const SEGMENTS = 12;
+    const SEGMENTS = 16;
     const GRAVITY = 0.62;
     const DAMPING = prefersReduced ? 0.97 : 0.989;
     const ITERATIONS = 18;
     const STEP = 1000 / 60;
 
     /* tali kain bermotif kotak */
-    const STRAP_W = 24;
+    let STRAP_W = 24;
     const CELL = 12;
     const STRAP_A = "#c65a3a";
     const STRAP_B = "#f8f3e8";
@@ -667,7 +667,7 @@ console.log(
 
         } else {
 
-            stage.style.top = "";
+            stage.style.setProperty("top", (-(area.getBoundingClientRect().top + window.scrollY)) + "px", "important");
 
         }
 
@@ -693,8 +693,9 @@ console.log(
 
         cardW = card.offsetWidth;
         cardH = card.offsetHeight;
+        STRAP_W = Math.round(cardW * 0.26);
 
-        anchorY = isWide() ? -16 : 26;
+        anchorY = -16;
 
         /* tali: cukup panjang, tapi kartu harus tetap muat di layar */
         let rope = H - cardH - anchorY - 120;
@@ -703,7 +704,7 @@ console.log(
             rope = Math.min(rope, window.innerHeight - 70 - cardH - anchorY);
         }
 
-        ropeLen = clamp(rope, 50, 460);
+        ropeLen = clamp(rope, 50, isWide() ? 460 : 1000);
         segLen = ropeLen / SEGMENTS;
 
         const tiltAngle = firstBuild && !prefersReduced ? 0.55 : 0;
@@ -886,108 +887,95 @@ console.log(
     /* --- menggambar tali kain bermotif kotak --- */
 
     function drawStrap(rope) {
-
-        /* alas: warna dasar + garis tepi */
         const path = () => {
-
             ctx.beginPath();
             ctx.moveTo(rope[0].x, rope[0].y);
-
             for (let i = 1; i < rope.length - 1; i++) {
-
                 const mx = (rope[i].x + rope[i + 1].x) / 2;
                 const my = (rope[i].y + rope[i + 1].y) / 2;
-
                 ctx.quadraticCurveTo(rope[i].x, rope[i].y, mx, my);
-
             }
-
             const last = rope[rope.length - 1];
-
             ctx.lineTo(last.x, last.y);
-
         };
-
         ctx.lineJoin = "round";
         ctx.lineCap = "butt";
-
-        path();
-        ctx.lineWidth = STRAP_W + 3;
-        ctx.strokeStyle = STRAP_EDGE;
-        ctx.stroke();
-
-        path();
-        ctx.lineWidth = STRAP_W;
-        ctx.strokeStyle = STRAP_B;
-        ctx.stroke();
-
-
-        /* motif kotak: 2 kolom kotak yang mengikuti lengkung tali */
+        /* pita datar: bayangan, lalu warna polos */
+        ctx.save();
+        ctx.shadowColor = "rgba(25, 23, 19, 0.32)";
+        ctx.shadowBlur = 10; ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 6;
+        path(); ctx.lineWidth = STRAP_W; ctx.strokeStyle = "#a9432a"; ctx.stroke();
+        ctx.restore();
+        path(); ctx.lineWidth = STRAP_W; ctx.strokeStyle = STRAP_A; ctx.stroke();
         const segs = [];
         let total = 0;
-
         for (let i = 0; i < rope.length - 1; i++) {
-
-            const dx = rope[i + 1].x - rope[i].x;
-            const dy = rope[i + 1].y - rope[i].y;
+            const dx = rope[i + 1].x - rope[i].x, dy = rope[i + 1].y - rope[i].y;
             const len = Math.hypot(dx, dy) || 0.0001;
-
             segs.push({ i: i, len: len, ux: dx / len, uy: dy / len, start: total });
-
             total += len;
-
         }
-
         const at = d => {
-
             let s = segs[segs.length - 1];
-
             for (let k = 0; k < segs.length; k++) {
                 if (d <= segs[k].start + segs[k].len) { s = segs[k]; break; }
             }
-
             const t = clamp(d - s.start, 0, s.len);
-
-            return {
-                x: rope[s.i].x + s.ux * t,
-                y: rope[s.i].y + s.uy * t,
-                nx: -s.uy,
-                ny: s.ux
-            };
-
+            return { x: rope[s.i].x + s.ux * t, y: rope[s.i].y + s.uy * t, nx: -s.uy, ny: s.ux };
         };
-
-        const cells = Math.ceil(total / CELL);
-
-        ctx.fillStyle = STRAP_A;
-
-        for (let k = 0; k < cells; k++) {
-
-            const p0 = at(k * CELL);
-            const p1 = at(Math.min((k + 1) * CELL, total));
-
-            for (let col = 0; col < 2; col++) {
-
-                if ((k + col) % 2) continue;
-
-                const o0 = -STRAP_W / 2 + col * (STRAP_W / 2);
-                const o1 = o0 + STRAP_W / 2;
-
-                ctx.beginPath();
-                ctx.moveTo(p0.x + p0.nx * o0, p0.y + p0.ny * o0);
-                ctx.lineTo(p1.x + p1.nx * o0, p1.y + p1.ny * o0);
-                ctx.lineTo(p1.x + p1.nx * o1, p1.y + p1.ny * o1);
-                ctx.lineTo(p0.x + p0.nx * o1, p0.y + p0.ny * o1);
-                ctx.closePath();
-                ctx.fill();
-
-            }
-
+        /* tenunan twill: garis miring halus */
+        ctx.lineWidth = 0.9;
+        for (let d = 0, f = 0; d < total; d += 2.4, f++) {
+            const p = at(d), hw = STRAP_W / 2;
+            ctx.strokeStyle = f % 2 ? "rgba(25, 23, 19, 0.09)" : "rgba(255, 255, 255, 0.07)";
+            ctx.beginPath();
+            ctx.moveTo(p.x - p.nx * hw - p.ny * 1.6, p.y - p.ny * hw + p.nx * 1.6);
+            ctx.lineTo(p.x + p.nx * hw + p.ny * 1.6, p.y + p.ny * hw - p.nx * 1.6);
+            ctx.stroke();
         }
-
+        /* tulisan tercetak berulang di sepanjang tali (seperti lanyard custom) */
+        let label = "KHUDZAIFAH HANNAN";
+        const fs = Math.max(9, Math.round(STRAP_W * 0.27));
+        ctx.font = "800 " + fs + "px Inter, 'Helvetica Neue', Arial, sans-serif";
+        ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        if ("letterSpacing" in ctx) ctx.letterSpacing = (fs * 0.18).toFixed(1) + "px";
+        let lw = ctx.measureText(label).width;
+        if (lw + STRAP_W * 1.4 > total) { label = "HANNAN"; lw = ctx.measureText(label).width; }
+        const unit = lw + STRAP_W * 1.5;
+        ctx.fillStyle = "rgba(248, 243, 232, 0.94)";
+        for (let c = total - STRAP_W * 0.5 - lw / 2; c - lw / 2 > 6; c -= unit) {
+            const p = at(c);
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(Math.atan2(-p.nx, p.ny));
+            ctx.fillText(label, 0, 0);
+            ctx.restore();
+            const dpos = c - unit / 2;
+            if (dpos > 8) {
+                const q = at(dpos);
+                ctx.beginPath(); ctx.arc(q.x, q.y, STRAP_W * 0.045, 0, 6.2832); ctx.fill();
+            }
+        }
+        if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+        /* tepi pita dan jahitan */
+        const samples = [];
+        for (let d = 0; d < total; d += 4) samples.push(at(d));
+        samples.push(at(total));
+        const line = (off, color, w, dash) => {
+            ctx.beginPath();
+            samples.forEach((p, i) => {
+                const x = p.x + p.nx * off, y = p.y + p.ny * off;
+                if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+            });
+            ctx.setLineDash(dash || []);
+            ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke();
+            ctx.setLineDash([]);
+        };
+        line(-STRAP_W / 2 + 0.7, "rgba(25, 23, 19, 0.4)", 1.4);
+        line(STRAP_W / 2 - 0.7, "rgba(25, 23, 19, 0.4)", 1.4);
+        line(-STRAP_W / 2 + 3.4, "rgba(248, 243, 232, 0.55)", 1, [4, 3]);
+        line(STRAP_W / 2 - 3.4, "rgba(248, 243, 232, 0.55)", 1, [4, 3]);
     }
-
-
     function render() {
 
         ctx.clearRect(0, 0, W, H);
@@ -1346,4 +1334,27 @@ console.log(
         if (e.isIntersecting) { el.classList.remove("is-wait"); io.disconnect(); }
     }), { threshold: 0.6 });
     io.observe(el);
+})();
+
+/* ==========================================================
+   HERO: nama raksasa menyesuaikan lebar layar
+========================================================== */
+(function () {
+    "use strict";
+    const h1 = document.querySelector(".hero-giant"), hero = document.getElementById("home");
+    if (!h1 || !hero) return;
+    const spans = [...h1.children];
+    function fit() {
+        h1.style.fontSize = "";
+        const base = parseFloat(getComputedStyle(h1).fontSize);
+        let w = 0;
+        spans.forEach(s => { w = Math.max(w, s.getBoundingClientRect().width); });
+        if (!w) return;
+        const target = hero.clientWidth * (window.innerWidth <= 1100 ? 0.84 : 0.62);
+        h1.style.fontSize = Math.min(base * target / w, 300) + "px";
+    }
+    fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    let t;
+    window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(fit, 120); });
 })();
