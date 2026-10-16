@@ -3887,3 +3887,54 @@ body.dark .hero h1.hero-giant { color: rgb(238, 230, 215); }
         linear-gradient(112deg, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, .06) 50%, rgba(255, 255, 255, 0) 60%);
 }
 .id-person { image-rendering: auto; }
+
+
+/* ==========================================================
+   DESAIN KARTU BARU (terinspirasi kartu event referensi)
+========================================================== */
+.id-plate {
+    background:
+        radial-gradient(circle at 93% 90%, rgba(255, 226, 190, .42) 0 8.5%, transparent 9%),
+        radial-gradient(circle at 74% 97%, rgba(255, 255, 255, .20) 0 5.5%, transparent 6%),
+        radial-gradient(circle at 88% 82%, rgba(255, 206, 160, .34), transparent 42%),
+        repeating-linear-gradient(115deg, rgba(255, 255, 255, .04) 0 1px, transparent 1px 5px),
+        linear-gradient(160deg, #e0724a 0%, #c65a3a 46%, #98381f 100%);
+}
+.id-bgtext {
+    left: auto; right: -2%; top: 12%; text-align: right;
+    font: 800 calc(var(--card-w) * .25) / .84 var(--sans); letter-spacing: -.04em;
+    color: rgba(255, 255, 255, .13);
+}
+.id-brand { position: absolute; left: 7%; top: 4.2%; display: flex; align-items: center; gap: 9px; z-index: 2; }
+.id-emblem {
+    width: calc(var(--card-w) * .12); aspect-ratio: 1; border-radius: 50%;
+    border: 1.5px solid rgba(248, 243, 232, .9); display: grid; place-items: center;
+    font: italic 400 calc(var(--card-w) * .058) / 1 var(--serif); color: #f8f3e8;
+}
+.id-emblem b { color: #e9cf69; font-weight: 400; }
+.id-brand-text b { display: block; font: 800 calc(var(--card-w) * .052) / 1.05 var(--sans); letter-spacing: .07em; color: #f8f3e8; }
+.id-brand-text small { display: block; margin-top: 3px; font: 600 calc(var(--card-w) * .034) / 1.2 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: rgba(248, 243, 232, .85); }
+
+.id-person, .id-person-shadow { width: 110%; left: -5%; }
+.id-person { clip-path: inset(-20% 8% 0 8% round 0 0 12px 12px); }
+.id-person-shadow { clip-path: inset(-20% 8% 0 8%); }
+.id-shade { height: 30%; background: linear-gradient(to top, rgba(18, 16, 12, .72) 4%, rgba(18, 16, 12, 0)); }
+
+.id-info {
+    left: 6.5%; right: auto; width: 74%; bottom: 5%;
+    background: #fbf8f0; border-radius: 10px; padding: 9px 12px 0; overflow: hidden;
+    box-shadow: 0 6px 14px rgba(10, 10, 6, .35);
+}
+.id-info strong { font: 800 calc(var(--card-w) * .088) / 1 var(--sans); letter-spacing: 0; color: #191713; text-shadow: none; }
+.id-info span { margin-top: 4px; font-size: calc(var(--card-w) * .042); font-weight: 700; letter-spacing: .03em; color: #6b6558; text-shadow: none; }
+.id-info em {
+    display: block; margin: 9px -12px 0; padding: 6px 12px; border-radius: 0;
+    background: #191713; color: #e9cf69; font-size: calc(var(--card-w) * .036); letter-spacing: .16em;
+}
+
+
+/* penyesuaian: kepala tidak menutupi teks header, emblem rapi */
+.id-emblem { display: flex; align-items: center; justify-content: center; }
+.id-person, .id-person-shadow { width: 104%; left: -2%; }
+.id-person { clip-path: inset(-20% 5.6% 0 5.6% round 0 0 12px 12px); }
+.id-person-shadow { clip-path: inset(-20% 5.6% 0 5.6%); }
